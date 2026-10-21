@@ -9,7 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.form_page_theme import FormPageTheme
+    from ..models.form_theme import FormTheme
 
 
 T = TypeVar("T", bound="FormPage")
@@ -20,11 +20,11 @@ class FormPage:
     """
     Attributes:
         code (str | Unset):
-        theme (FormPageTheme | Unset):
+        theme (FormTheme | Unset):
     """
 
     code: str | Unset = UNSET
-    theme: FormPageTheme | Unset = UNSET
+    theme: FormTheme | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -46,17 +46,17 @@ class FormPage:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.form_page_theme import FormPageTheme
+        from ..models.form_theme import FormTheme
 
         d = dict(src_dict)
         code = d.pop("code", UNSET)
 
         _theme = d.pop("theme", UNSET)
-        theme: FormPageTheme | Unset
+        theme: FormTheme | Unset
         if isinstance(_theme, Unset):
             theme = UNSET
         else:
-            theme = FormPageTheme.from_dict(_theme)
+            theme = FormTheme.from_dict(_theme)
 
         form_page = cls(
             code=code,

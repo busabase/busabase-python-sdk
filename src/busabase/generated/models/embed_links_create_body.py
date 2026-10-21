@@ -10,9 +10,9 @@ from ..models.embed_links_create_body_type import EmbedLinksCreateBodyType, chec
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.embed_links_create_body_frame_policy_type_0 import EmbedLinksCreateBodyFramePolicyType0
-    from ..models.embed_links_create_body_frame_policy_type_1 import EmbedLinksCreateBodyFramePolicyType1
-    from ..models.embed_links_create_body_frame_policy_type_2 import EmbedLinksCreateBodyFramePolicyType2
+    from ..models.embed_frame_policy_anywhere import EmbedFramePolicyAnywhere
+    from ..models.embed_frame_policy_origins import EmbedFramePolicyOrigins
+    from ..models.embed_frame_policy_top_level_only import EmbedFramePolicyTopLevelOnly
 
 
 T = TypeVar("T", bound="EmbedLinksCreateBody")
@@ -25,25 +25,19 @@ class EmbedLinksCreateBody:
         type_ (EmbedLinksCreateBodyType):
         type_id (str):
         expires_in_minutes (int | Unset):  Default: 15.
-        frame_policy (EmbedLinksCreateBodyFramePolicyType0 | EmbedLinksCreateBodyFramePolicyType1 |
-            EmbedLinksCreateBodyFramePolicyType2 | Unset): Defaults to `{"mode":"anywhere","allowedOrigins":[]}` when
-            omitted.
+        frame_policy (EmbedFramePolicyAnywhere | EmbedFramePolicyOrigins | EmbedFramePolicyTopLevelOnly | Unset):
+            Defaults to `{"mode":"anywhere","allowedOrigins":[]}` when omitted.
     """
 
     type_: EmbedLinksCreateBodyType
     type_id: str
     expires_in_minutes: int | Unset = 15
-    frame_policy: (
-        EmbedLinksCreateBodyFramePolicyType0
-        | EmbedLinksCreateBodyFramePolicyType1
-        | EmbedLinksCreateBodyFramePolicyType2
-        | Unset
-    ) = UNSET
+    frame_policy: EmbedFramePolicyAnywhere | EmbedFramePolicyOrigins | EmbedFramePolicyTopLevelOnly | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.embed_links_create_body_frame_policy_type_0 import EmbedLinksCreateBodyFramePolicyType0
-        from ..models.embed_links_create_body_frame_policy_type_1 import EmbedLinksCreateBodyFramePolicyType1
+        from ..models.embed_frame_policy_anywhere import EmbedFramePolicyAnywhere
+        from ..models.embed_frame_policy_origins import EmbedFramePolicyOrigins
 
         type_: str = self.type_
 
@@ -54,8 +48,8 @@ class EmbedLinksCreateBody:
         frame_policy: dict[str, Any] | Unset
         if isinstance(self.frame_policy, Unset):
             frame_policy = UNSET
-        elif isinstance(self.frame_policy, EmbedLinksCreateBodyFramePolicyType0) or isinstance(
-            self.frame_policy, EmbedLinksCreateBodyFramePolicyType1
+        elif isinstance(self.frame_policy, EmbedFramePolicyAnywhere) or isinstance(
+            self.frame_policy, EmbedFramePolicyOrigins
         ):
             frame_policy = self.frame_policy.to_dict()
         else:
@@ -78,9 +72,9 @@ class EmbedLinksCreateBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.embed_links_create_body_frame_policy_type_0 import EmbedLinksCreateBodyFramePolicyType0
-        from ..models.embed_links_create_body_frame_policy_type_1 import EmbedLinksCreateBodyFramePolicyType1
-        from ..models.embed_links_create_body_frame_policy_type_2 import EmbedLinksCreateBodyFramePolicyType2
+        from ..models.embed_frame_policy_anywhere import EmbedFramePolicyAnywhere
+        from ..models.embed_frame_policy_origins import EmbedFramePolicyOrigins
+        from ..models.embed_frame_policy_top_level_only import EmbedFramePolicyTopLevelOnly
 
         d = dict(src_dict)
         type_ = check_embed_links_create_body_type(d.pop("type"))
@@ -91,18 +85,13 @@ class EmbedLinksCreateBody:
 
         def _parse_frame_policy(
             data: object,
-        ) -> (
-            EmbedLinksCreateBodyFramePolicyType0
-            | EmbedLinksCreateBodyFramePolicyType1
-            | EmbedLinksCreateBodyFramePolicyType2
-            | Unset
-        ):
+        ) -> EmbedFramePolicyAnywhere | EmbedFramePolicyOrigins | EmbedFramePolicyTopLevelOnly | Unset:
             if isinstance(data, Unset):
                 return data
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                frame_policy_type_0 = EmbedLinksCreateBodyFramePolicyType0.from_dict(data)
+                frame_policy_type_0 = EmbedFramePolicyAnywhere.from_dict(data)
 
                 return frame_policy_type_0
             except (TypeError, ValueError, AttributeError, KeyError):
@@ -110,14 +99,14 @@ class EmbedLinksCreateBody:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                frame_policy_type_1 = EmbedLinksCreateBodyFramePolicyType1.from_dict(data)
+                frame_policy_type_1 = EmbedFramePolicyOrigins.from_dict(data)
 
                 return frame_policy_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             if not isinstance(data, dict):
                 raise TypeError()
-            frame_policy_type_2 = EmbedLinksCreateBodyFramePolicyType2.from_dict(data)
+            frame_policy_type_2 = EmbedFramePolicyTopLevelOnly.from_dict(data)
 
             return frame_policy_type_2
 

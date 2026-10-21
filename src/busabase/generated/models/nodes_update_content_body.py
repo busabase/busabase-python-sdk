@@ -9,10 +9,10 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.nodes_update_content_body_content_type_0 import NodesUpdateContentBodyContentType0
-    from ..models.nodes_update_content_body_content_type_1 import NodesUpdateContentBodyContentType1
-    from ..models.nodes_update_content_body_content_type_2 import NodesUpdateContentBodyContentType2
-    from ..models.nodes_update_content_body_content_type_3 import NodesUpdateContentBodyContentType3
+    from ..models.doc_node_content import DocNodeContent
+    from ..models.html_node_content import HtmlNodeContent
+    from ..models.whiteboard_node_content import WhiteboardNodeContent
+    from ..models.workflow_node_content import WorkflowNodeContent
 
 
 T = TypeVar("T", bound="NodesUpdateContentBody")
@@ -22,35 +22,29 @@ T = TypeVar("T", bound="NodesUpdateContentBody")
 class NodesUpdateContentBody:
     """
     Attributes:
-        content (NodesUpdateContentBodyContentType0 | NodesUpdateContentBodyContentType1 |
-            NodesUpdateContentBodyContentType2 | NodesUpdateContentBodyContentType3):
+        content (DocNodeContent | HtmlNodeContent | WhiteboardNodeContent | WorkflowNodeContent):
         message (str | Unset): Explanation shown to the human reviewer. Write a conventional-commit style subject —
             imperative verb + what + why, e.g. "Add rollback steps to the deploy runbook". Default: 'Update content'.
         submitted_by (str | Unset):  Default: 'local-producer'.
         auto_merge (bool | Unset):
     """
 
-    content: (
-        NodesUpdateContentBodyContentType0
-        | NodesUpdateContentBodyContentType1
-        | NodesUpdateContentBodyContentType2
-        | NodesUpdateContentBodyContentType3
-    )
+    content: DocNodeContent | HtmlNodeContent | WhiteboardNodeContent | WorkflowNodeContent
     message: str | Unset = "Update content"
     submitted_by: str | Unset = "local-producer"
     auto_merge: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.nodes_update_content_body_content_type_0 import NodesUpdateContentBodyContentType0
-        from ..models.nodes_update_content_body_content_type_1 import NodesUpdateContentBodyContentType1
-        from ..models.nodes_update_content_body_content_type_2 import NodesUpdateContentBodyContentType2
+        from ..models.doc_node_content import DocNodeContent
+        from ..models.whiteboard_node_content import WhiteboardNodeContent
+        from ..models.workflow_node_content import WorkflowNodeContent
 
         content: dict[str, Any]
         if (
-            isinstance(self.content, NodesUpdateContentBodyContentType0)
-            or isinstance(self.content, NodesUpdateContentBodyContentType1)
-            or isinstance(self.content, NodesUpdateContentBodyContentType2)
+            isinstance(self.content, DocNodeContent)
+            or isinstance(self.content, WhiteboardNodeContent)
+            or isinstance(self.content, WorkflowNodeContent)
         ):
             content = self.content.to_dict()
         else:
@@ -80,25 +74,20 @@ class NodesUpdateContentBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.nodes_update_content_body_content_type_0 import NodesUpdateContentBodyContentType0
-        from ..models.nodes_update_content_body_content_type_1 import NodesUpdateContentBodyContentType1
-        from ..models.nodes_update_content_body_content_type_2 import NodesUpdateContentBodyContentType2
-        from ..models.nodes_update_content_body_content_type_3 import NodesUpdateContentBodyContentType3
+        from ..models.doc_node_content import DocNodeContent
+        from ..models.html_node_content import HtmlNodeContent
+        from ..models.whiteboard_node_content import WhiteboardNodeContent
+        from ..models.workflow_node_content import WorkflowNodeContent
 
         d = dict(src_dict)
 
         def _parse_content(
             data: object,
-        ) -> (
-            NodesUpdateContentBodyContentType0
-            | NodesUpdateContentBodyContentType1
-            | NodesUpdateContentBodyContentType2
-            | NodesUpdateContentBodyContentType3
-        ):
+        ) -> DocNodeContent | HtmlNodeContent | WhiteboardNodeContent | WorkflowNodeContent:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                content_type_0 = NodesUpdateContentBodyContentType0.from_dict(data)
+                content_type_0 = DocNodeContent.from_dict(data)
 
                 return content_type_0
             except (TypeError, ValueError, AttributeError, KeyError):
@@ -106,7 +95,7 @@ class NodesUpdateContentBody:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                content_type_1 = NodesUpdateContentBodyContentType1.from_dict(data)
+                content_type_1 = WhiteboardNodeContent.from_dict(data)
 
                 return content_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
@@ -114,14 +103,14 @@ class NodesUpdateContentBody:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                content_type_2 = NodesUpdateContentBodyContentType2.from_dict(data)
+                content_type_2 = WorkflowNodeContent.from_dict(data)
 
                 return content_type_2
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             if not isinstance(data, dict):
                 raise TypeError()
-            content_type_3 = NodesUpdateContentBodyContentType3.from_dict(data)
+            content_type_3 = HtmlNodeContent.from_dict(data)
 
             return content_type_3
 

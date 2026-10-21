@@ -7,7 +7,7 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.node_agent_prompts_agent_prompts_type_0_item import NodeAgentPromptsAgentPromptsType0Item
+    from ..models.node_agent_prompt import NodeAgentPrompt
 
 
 T = TypeVar("T", bound="NodeAgentPrompts")
@@ -18,11 +18,11 @@ class NodeAgentPrompts:
     """
     Attributes:
         node_id (str):
-        agent_prompts (list[NodeAgentPromptsAgentPromptsType0Item] | None):
+        agent_prompts (list[NodeAgentPrompt] | None):
     """
 
     node_id: str
-    agent_prompts: list[NodeAgentPromptsAgentPromptsType0Item] | None
+    agent_prompts: list[NodeAgentPrompt] | None
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,12 +51,12 @@ class NodeAgentPrompts:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.node_agent_prompts_agent_prompts_type_0_item import NodeAgentPromptsAgentPromptsType0Item
+        from ..models.node_agent_prompt import NodeAgentPrompt
 
         d = dict(src_dict)
         node_id = d.pop("nodeId")
 
-        def _parse_agent_prompts(data: object) -> list[NodeAgentPromptsAgentPromptsType0Item] | None:
+        def _parse_agent_prompts(data: object) -> list[NodeAgentPrompt] | None:
             if data is None:
                 return data
             try:
@@ -65,16 +65,14 @@ class NodeAgentPrompts:
                 agent_prompts_type_0 = []
                 _agent_prompts_type_0 = data
                 for agent_prompts_type_0_item_data in _agent_prompts_type_0:
-                    agent_prompts_type_0_item = NodeAgentPromptsAgentPromptsType0Item.from_dict(
-                        agent_prompts_type_0_item_data
-                    )
+                    agent_prompts_type_0_item = NodeAgentPrompt.from_dict(agent_prompts_type_0_item_data)
 
                     agent_prompts_type_0.append(agent_prompts_type_0_item)
 
                 return agent_prompts_type_0
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(list[NodeAgentPromptsAgentPromptsType0Item] | None, data)
+            return cast(list[NodeAgentPrompt] | None, data)
 
         agent_prompts = _parse_agent_prompts(d.pop("agentPrompts"))
 

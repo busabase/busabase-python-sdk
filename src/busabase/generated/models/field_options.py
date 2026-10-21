@@ -9,14 +9,14 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.field_choice import FieldChoice
+    from ..models.field_help import FieldHelp
     from ..models.field_options_ai import FieldOptionsAi
     from ..models.field_options_attachment import FieldOptionsAttachment
-    from ..models.field_options_choices_item import FieldOptionsChoicesItem
     from ..models.field_options_code import FieldOptionsCode
     from ..models.field_options_date import FieldOptionsDate
     from ..models.field_options_embed import FieldOptionsEmbed
     from ..models.field_options_formula import FieldOptionsFormula
-    from ..models.field_options_help import FieldOptionsHelp
     from ..models.field_options_lookup import FieldOptionsLookup
     from ..models.field_options_number import FieldOptionsNumber
 
@@ -28,10 +28,10 @@ T = TypeVar("T", bound="FieldOptions")
 class FieldOptions:
     """
     Attributes:
-        help_ (FieldOptionsHelp | Unset):
+        help_ (FieldHelp | Unset):
         ai (FieldOptionsAi | Unset):
         attachment (FieldOptionsAttachment | Unset):
-        choices (list[FieldOptionsChoicesItem] | Unset):
+        choices (list[FieldChoice] | Unset):
         code (FieldOptionsCode | Unset):
         date (FieldOptionsDate | Unset):
         embed (FieldOptionsEmbed | Unset):
@@ -45,10 +45,10 @@ class FieldOptions:
             server-side (active bases in the current space). If both are given, targetBaseId wins.
     """
 
-    help_: FieldOptionsHelp | Unset = UNSET
+    help_: FieldHelp | Unset = UNSET
     ai: FieldOptionsAi | Unset = UNSET
     attachment: FieldOptionsAttachment | Unset = UNSET
-    choices: list[FieldOptionsChoicesItem] | Unset = UNSET
+    choices: list[FieldChoice] | Unset = UNSET
     code: FieldOptionsCode | Unset = UNSET
     date: FieldOptionsDate | Unset = UNSET
     embed: FieldOptionsEmbed | Unset = UNSET
@@ -149,24 +149,24 @@ class FieldOptions:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.field_choice import FieldChoice
+        from ..models.field_help import FieldHelp
         from ..models.field_options_ai import FieldOptionsAi
         from ..models.field_options_attachment import FieldOptionsAttachment
-        from ..models.field_options_choices_item import FieldOptionsChoicesItem
         from ..models.field_options_code import FieldOptionsCode
         from ..models.field_options_date import FieldOptionsDate
         from ..models.field_options_embed import FieldOptionsEmbed
         from ..models.field_options_formula import FieldOptionsFormula
-        from ..models.field_options_help import FieldOptionsHelp
         from ..models.field_options_lookup import FieldOptionsLookup
         from ..models.field_options_number import FieldOptionsNumber
 
         d = dict(src_dict)
         _help_ = d.pop("help", UNSET)
-        help_: FieldOptionsHelp | Unset
+        help_: FieldHelp | Unset
         if isinstance(_help_, Unset):
             help_ = UNSET
         else:
-            help_ = FieldOptionsHelp.from_dict(_help_)
+            help_ = FieldHelp.from_dict(_help_)
 
         _ai = d.pop("ai", UNSET)
         ai: FieldOptionsAi | Unset
@@ -183,11 +183,11 @@ class FieldOptions:
             attachment = FieldOptionsAttachment.from_dict(_attachment)
 
         _choices = d.pop("choices", UNSET)
-        choices: list[FieldOptionsChoicesItem] | Unset = UNSET
+        choices: list[FieldChoice] | Unset = UNSET
         if _choices is not UNSET:
             choices = []
             for choices_item_data in _choices:
-                choices_item = FieldOptionsChoicesItem.from_dict(choices_item_data)
+                choices_item = FieldChoice.from_dict(choices_item_data)
 
                 choices.append(choices_item)
 

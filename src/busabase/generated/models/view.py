@@ -30,6 +30,7 @@ class View:
         type_ (ViewType):
         config (ViewConfig):
         status (ViewStatus):
+        position (int):
         created_by (str):
         archived_at (None | str):
         created_at (str):
@@ -45,6 +46,7 @@ class View:
     type_: ViewType
     config: ViewConfig
     status: ViewStatus
+    position: int
     created_by: str
     archived_at: None | str
     created_at: str
@@ -70,6 +72,8 @@ class View:
         config = self.config.to_dict()
 
         status: str = self.status
+
+        position = self.position
 
         created_by = self.created_by
 
@@ -100,6 +104,7 @@ class View:
                 "type": type_,
                 "config": config,
                 "status": status,
+                "position": position,
                 "createdBy": created_by,
                 "archivedAt": archived_at,
                 "createdAt": created_at,
@@ -132,6 +137,8 @@ class View:
         config = ViewConfig.from_dict(d.pop("config"))
 
         status = check_view_status(d.pop("status"))
+
+        position = d.pop("position")
 
         created_by = d.pop("createdBy")
 
@@ -172,6 +179,7 @@ class View:
             type_=type_,
             config=config,
             status=status,
+            position=position,
             created_by=created_by,
             archived_at=archived_at,
             created_at=created_at,

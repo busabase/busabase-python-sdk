@@ -10,8 +10,8 @@ from ..models.bases_create_field_body_type import BasesCreateFieldBodyType, chec
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.bases_create_field_body_name_type_1 import BasesCreateFieldBodyNameType1
     from ..models.field_options import FieldOptions
+    from ..models.localized_field_name import LocalizedFieldName
 
 
 T = TypeVar("T", bound="BasesCreateFieldBody")
@@ -21,14 +21,14 @@ T = TypeVar("T", bound="BasesCreateFieldBody")
 class BasesCreateFieldBody:
     """
     Attributes:
-        name (BasesCreateFieldBodyNameType1 | str):
+        name (LocalizedFieldName | str):
         slug (str):
         type_ (BasesCreateFieldBodyType | Unset):  Default: 'text'.
         required (bool | Unset):  Default: False.
         options (FieldOptions | Unset):
     """
 
-    name: BasesCreateFieldBodyNameType1 | str
+    name: LocalizedFieldName | str
     slug: str
     type_: BasesCreateFieldBodyType | Unset = "text"
     required: bool | Unset = False
@@ -36,10 +36,10 @@ class BasesCreateFieldBody:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.bases_create_field_body_name_type_1 import BasesCreateFieldBodyNameType1
+        from ..models.localized_field_name import LocalizedFieldName
 
         name: dict[str, Any] | str
-        if isinstance(self.name, BasesCreateFieldBodyNameType1):
+        if isinstance(self.name, LocalizedFieldName):
             name = self.name.to_dict()
         else:
             name = self.name
@@ -75,21 +75,21 @@ class BasesCreateFieldBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.bases_create_field_body_name_type_1 import BasesCreateFieldBodyNameType1
         from ..models.field_options import FieldOptions
+        from ..models.localized_field_name import LocalizedFieldName
 
         d = dict(src_dict)
 
-        def _parse_name(data: object) -> BasesCreateFieldBodyNameType1 | str:
+        def _parse_name(data: object) -> LocalizedFieldName | str:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                name_type_1 = BasesCreateFieldBodyNameType1.from_dict(data)
+                name_type_1 = LocalizedFieldName.from_dict(data)
 
                 return name_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(BasesCreateFieldBodyNameType1 | str, data)
+            return cast(LocalizedFieldName | str, data)
 
         name = _parse_name(d.pop("name"))
 

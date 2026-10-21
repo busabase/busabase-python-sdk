@@ -5,10 +5,10 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.records_count_filters_item import RecordsCountFiltersItem
+from ...models.record_filter import RecordFilter
+from ...models.record_value_any_of import RecordValueAnyOf
+from ...models.record_value_comparison import RecordValueComparison
 from ...models.records_count_response_200 import RecordsCountResponse200
-from ...models.records_count_value_filters_item_type_0 import RecordsCountValueFiltersItemType0
-from ...models.records_count_value_filters_item_type_1 import RecordsCountValueFiltersItemType1
 from ...types import UNSET, Response, Unset
 
 
@@ -16,8 +16,8 @@ def _get_kwargs(
     *,
     base_id: str | Unset = UNSET,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsCountFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsCountValueFiltersItemType0 | RecordsCountValueFiltersItemType1] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -40,7 +40,7 @@ def _get_kwargs(
         json_value_filters = []
         for value_filters_item_data in value_filters:
             value_filters_item: dict[str, Any]
-            if isinstance(value_filters_item_data, RecordsCountValueFiltersItemType0):
+            if isinstance(value_filters_item_data, RecordValueComparison):
                 value_filters_item = value_filters_item_data.to_dict()
             else:
                 value_filters_item = value_filters_item_data.to_dict()
@@ -90,8 +90,8 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     base_id: str | Unset = UNSET,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsCountFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsCountValueFiltersItemType0 | RecordsCountValueFiltersItemType1] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
 ) -> Response[RecordsCountResponse200]:
     """Count records
 
@@ -108,15 +108,14 @@ def sync_detailed(
             or `valueFilters` is given — a field slug only means something within one Base.
         view_id (str | Unset): Count only what this saved View would display. Its filters apply;
             its sort is ignored, since a count has no order. Requires `baseId`.
-        filters (list[RecordsCountFiltersItem] | Unset): Ad-hoc conditions, ANDed with the View's
-            own when `viewId` is also given. Unlike `records.list`'s superset `filters`, the COUNT is
-            exact either way — but a condition whose exactness cannot be proven makes the server read
-            every candidate row instead of running one aggregate, so prefer `valueFilters` where it
-            fits. Requires `baseId`.
-        value_filters (list[RecordsCountValueFiltersItemType0 | RecordsCountValueFiltersItemType1]
-            | Unset): EXACT value comparisons, same shape as `records.list`'s. Always exact, so a
-            count scoped only by these stays a single SQL count instead of reading every candidate
-            row. Requires `baseId`.
+        filters (list[RecordFilter] | Unset): Ad-hoc conditions, ANDed with the View's own when
+            `viewId` is also given. Unlike `records.list`'s superset `filters`, the COUNT is exact
+            either way — but a condition whose exactness cannot be proven makes the server read every
+            candidate row instead of running one aggregate, so prefer `valueFilters` where it fits.
+            Requires `baseId`.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, same shape as `records.list`'s. Always exact, so a count scoped only by these
+            stays a single SQL count instead of reading every candidate row. Requires `baseId`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -145,8 +144,8 @@ def sync(
     client: AuthenticatedClient | Client,
     base_id: str | Unset = UNSET,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsCountFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsCountValueFiltersItemType0 | RecordsCountValueFiltersItemType1] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
 ) -> RecordsCountResponse200 | None:
     """Count records
 
@@ -163,15 +162,14 @@ def sync(
             or `valueFilters` is given — a field slug only means something within one Base.
         view_id (str | Unset): Count only what this saved View would display. Its filters apply;
             its sort is ignored, since a count has no order. Requires `baseId`.
-        filters (list[RecordsCountFiltersItem] | Unset): Ad-hoc conditions, ANDed with the View's
-            own when `viewId` is also given. Unlike `records.list`'s superset `filters`, the COUNT is
-            exact either way — but a condition whose exactness cannot be proven makes the server read
-            every candidate row instead of running one aggregate, so prefer `valueFilters` where it
-            fits. Requires `baseId`.
-        value_filters (list[RecordsCountValueFiltersItemType0 | RecordsCountValueFiltersItemType1]
-            | Unset): EXACT value comparisons, same shape as `records.list`'s. Always exact, so a
-            count scoped only by these stays a single SQL count instead of reading every candidate
-            row. Requires `baseId`.
+        filters (list[RecordFilter] | Unset): Ad-hoc conditions, ANDed with the View's own when
+            `viewId` is also given. Unlike `records.list`'s superset `filters`, the COUNT is exact
+            either way — but a condition whose exactness cannot be proven makes the server read every
+            candidate row instead of running one aggregate, so prefer `valueFilters` where it fits.
+            Requires `baseId`.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, same shape as `records.list`'s. Always exact, so a count scoped only by these
+            stays a single SQL count instead of reading every candidate row. Requires `baseId`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -195,8 +193,8 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     base_id: str | Unset = UNSET,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsCountFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsCountValueFiltersItemType0 | RecordsCountValueFiltersItemType1] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
 ) -> Response[RecordsCountResponse200]:
     """Count records
 
@@ -213,15 +211,14 @@ async def asyncio_detailed(
             or `valueFilters` is given — a field slug only means something within one Base.
         view_id (str | Unset): Count only what this saved View would display. Its filters apply;
             its sort is ignored, since a count has no order. Requires `baseId`.
-        filters (list[RecordsCountFiltersItem] | Unset): Ad-hoc conditions, ANDed with the View's
-            own when `viewId` is also given. Unlike `records.list`'s superset `filters`, the COUNT is
-            exact either way — but a condition whose exactness cannot be proven makes the server read
-            every candidate row instead of running one aggregate, so prefer `valueFilters` where it
-            fits. Requires `baseId`.
-        value_filters (list[RecordsCountValueFiltersItemType0 | RecordsCountValueFiltersItemType1]
-            | Unset): EXACT value comparisons, same shape as `records.list`'s. Always exact, so a
-            count scoped only by these stays a single SQL count instead of reading every candidate
-            row. Requires `baseId`.
+        filters (list[RecordFilter] | Unset): Ad-hoc conditions, ANDed with the View's own when
+            `viewId` is also given. Unlike `records.list`'s superset `filters`, the COUNT is exact
+            either way — but a condition whose exactness cannot be proven makes the server read every
+            candidate row instead of running one aggregate, so prefer `valueFilters` where it fits.
+            Requires `baseId`.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, same shape as `records.list`'s. Always exact, so a count scoped only by these
+            stays a single SQL count instead of reading every candidate row. Requires `baseId`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -248,8 +245,8 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     base_id: str | Unset = UNSET,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsCountFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsCountValueFiltersItemType0 | RecordsCountValueFiltersItemType1] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
 ) -> RecordsCountResponse200 | None:
     """Count records
 
@@ -266,15 +263,14 @@ async def asyncio(
             or `valueFilters` is given — a field slug only means something within one Base.
         view_id (str | Unset): Count only what this saved View would display. Its filters apply;
             its sort is ignored, since a count has no order. Requires `baseId`.
-        filters (list[RecordsCountFiltersItem] | Unset): Ad-hoc conditions, ANDed with the View's
-            own when `viewId` is also given. Unlike `records.list`'s superset `filters`, the COUNT is
-            exact either way — but a condition whose exactness cannot be proven makes the server read
-            every candidate row instead of running one aggregate, so prefer `valueFilters` where it
-            fits. Requires `baseId`.
-        value_filters (list[RecordsCountValueFiltersItemType0 | RecordsCountValueFiltersItemType1]
-            | Unset): EXACT value comparisons, same shape as `records.list`'s. Always exact, so a
-            count scoped only by these stays a single SQL count instead of reading every candidate
-            row. Requires `baseId`.
+        filters (list[RecordFilter] | Unset): Ad-hoc conditions, ANDed with the View's own when
+            `viewId` is also given. Unlike `records.list`'s superset `filters`, the COUNT is exact
+            either way — but a condition whose exactness cannot be proven makes the server read every
+            candidate row instead of running one aggregate, so prefer `valueFilters` where it fits.
+            Requires `baseId`.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, same shape as `records.list`'s. Always exact, so a count scoped only by these
+            stays a single SQL count instead of reading every candidate row. Requires `baseId`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

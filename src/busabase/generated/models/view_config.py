@@ -13,8 +13,8 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.view_config_field_widths import ViewConfigFieldWidths
-    from ..models.view_config_filters_item import ViewConfigFiltersItem
-    from ..models.view_config_sorts_item import ViewConfigSortsItem
+    from ..models.view_filter import ViewFilter
+    from ..models.view_sort import ViewSort
 
 
 T = TypeVar("T", bound="ViewConfig")
@@ -24,8 +24,8 @@ T = TypeVar("T", bound="ViewConfig")
 class ViewConfig:
     """
     Attributes:
-        filters (list[ViewConfigFiltersItem] | Unset):
-        sorts (list[ViewConfigSortsItem] | Unset):
+        filters (list[ViewFilter] | Unset):
+        sorts (list[ViewSort] | Unset):
         visible_field_slugs (list[str] | None | Unset):
         field_widths (ViewConfigFieldWidths | Unset):
         cover_field_slug (None | str | Unset):
@@ -39,8 +39,8 @@ class ViewConfig:
         gantt_scale (ViewConfigGanttScale | Unset):
     """
 
-    filters: list[ViewConfigFiltersItem] | Unset = UNSET
-    sorts: list[ViewConfigSortsItem] | Unset = UNSET
+    filters: list[ViewFilter] | Unset = UNSET
+    sorts: list[ViewSort] | Unset = UNSET
     visible_field_slugs: list[str] | None | Unset = UNSET
     field_widths: ViewConfigFieldWidths | Unset = UNSET
     cover_field_slug: None | str | Unset = UNSET
@@ -161,25 +161,25 @@ class ViewConfig:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.view_config_field_widths import ViewConfigFieldWidths
-        from ..models.view_config_filters_item import ViewConfigFiltersItem
-        from ..models.view_config_sorts_item import ViewConfigSortsItem
+        from ..models.view_filter import ViewFilter
+        from ..models.view_sort import ViewSort
 
         d = dict(src_dict)
         _filters = d.pop("filters", UNSET)
-        filters: list[ViewConfigFiltersItem] | Unset = UNSET
+        filters: list[ViewFilter] | Unset = UNSET
         if _filters is not UNSET:
             filters = []
             for filters_item_data in _filters:
-                filters_item = ViewConfigFiltersItem.from_dict(filters_item_data)
+                filters_item = ViewFilter.from_dict(filters_item_data)
 
                 filters.append(filters_item)
 
         _sorts = d.pop("sorts", UNSET)
-        sorts: list[ViewConfigSortsItem] | Unset = UNSET
+        sorts: list[ViewSort] | Unset = UNSET
         if _sorts is not UNSET:
             sorts = []
             for sorts_item_data in _sorts:
-                sorts_item = ViewConfigSortsItem.from_dict(sorts_item_data)
+                sorts_item = ViewSort.from_dict(sorts_item_data)
 
                 sorts.append(sorts_item)
 

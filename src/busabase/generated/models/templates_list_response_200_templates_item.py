@@ -13,12 +13,7 @@ from ..models.templates_list_response_200_templates_item_risk import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.templates_list_response_200_templates_item_description_type_1 import (
-        TemplatesListResponse200TemplatesItemDescriptionType1,
-    )
-    from ..models.templates_list_response_200_templates_item_display_name_type_1 import (
-        TemplatesListResponse200TemplatesItemDisplayNameType1,
-    )
+    from ..models.localized_text import LocalizedText
     from ..models.templates_list_response_200_templates_item_install import TemplatesListResponse200TemplatesItemInstall
     from ..models.templates_list_response_200_templates_item_stats import TemplatesListResponse200TemplatesItemStats
 
@@ -32,12 +27,12 @@ class TemplatesListResponse200TemplatesItem:
     Attributes:
         id (str):
         name (str):
-        description (str | TemplatesListResponse200TemplatesItemDescriptionType1): i18n string
+        description (LocalizedText | str): i18n string
         category (str):
         stats (TemplatesListResponse200TemplatesItemStats):
         install (TemplatesListResponse200TemplatesItemInstall):
         source_url (str):
-        display_name (str | TemplatesListResponse200TemplatesItemDisplayNameType1 | Unset): i18n string
+        display_name (LocalizedText | str | Unset): i18n string
         risk (TemplatesListResponse200TemplatesItemRisk | Unset):
         tags (list[str] | Unset):
         screenshots (list[str] | Unset):
@@ -50,12 +45,12 @@ class TemplatesListResponse200TemplatesItem:
 
     id: str
     name: str
-    description: str | TemplatesListResponse200TemplatesItemDescriptionType1
+    description: LocalizedText | str
     category: str
     stats: TemplatesListResponse200TemplatesItemStats
     install: TemplatesListResponse200TemplatesItemInstall
     source_url: str
-    display_name: str | TemplatesListResponse200TemplatesItemDisplayNameType1 | Unset = UNSET
+    display_name: LocalizedText | str | Unset = UNSET
     risk: TemplatesListResponse200TemplatesItemRisk | Unset = UNSET
     tags: list[str] | Unset = UNSET
     screenshots: list[str] | Unset = UNSET
@@ -67,19 +62,14 @@ class TemplatesListResponse200TemplatesItem:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.templates_list_response_200_templates_item_description_type_1 import (
-            TemplatesListResponse200TemplatesItemDescriptionType1,
-        )
-        from ..models.templates_list_response_200_templates_item_display_name_type_1 import (
-            TemplatesListResponse200TemplatesItemDisplayNameType1,
-        )
+        from ..models.localized_text import LocalizedText
 
         id = self.id
 
         name = self.name
 
         description: dict[str, Any] | str
-        if isinstance(self.description, TemplatesListResponse200TemplatesItemDescriptionType1):
+        if isinstance(self.description, LocalizedText):
             description = self.description.to_dict()
         else:
             description = self.description
@@ -95,7 +85,7 @@ class TemplatesListResponse200TemplatesItem:
         display_name: dict[str, Any] | str | Unset
         if isinstance(self.display_name, Unset):
             display_name = UNSET
-        elif isinstance(self.display_name, TemplatesListResponse200TemplatesItemDisplayNameType1):
+        elif isinstance(self.display_name, LocalizedText):
             display_name = self.display_name.to_dict()
         else:
             display_name = self.display_name
@@ -160,12 +150,7 @@ class TemplatesListResponse200TemplatesItem:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.templates_list_response_200_templates_item_description_type_1 import (
-            TemplatesListResponse200TemplatesItemDescriptionType1,
-        )
-        from ..models.templates_list_response_200_templates_item_display_name_type_1 import (
-            TemplatesListResponse200TemplatesItemDisplayNameType1,
-        )
+        from ..models.localized_text import LocalizedText
         from ..models.templates_list_response_200_templates_item_install import (
             TemplatesListResponse200TemplatesItemInstall,
         )
@@ -176,16 +161,16 @@ class TemplatesListResponse200TemplatesItem:
 
         name = d.pop("name")
 
-        def _parse_description(data: object) -> str | TemplatesListResponse200TemplatesItemDescriptionType1:
+        def _parse_description(data: object) -> LocalizedText | str:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                description_type_1 = TemplatesListResponse200TemplatesItemDescriptionType1.from_dict(data)
+                description_type_1 = LocalizedText.from_dict(data)
 
                 return description_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(str | TemplatesListResponse200TemplatesItemDescriptionType1, data)
+            return cast(LocalizedText | str, data)
 
         description = _parse_description(d.pop("description"))
 
@@ -197,18 +182,18 @@ class TemplatesListResponse200TemplatesItem:
 
         source_url = d.pop("sourceUrl")
 
-        def _parse_display_name(data: object) -> str | TemplatesListResponse200TemplatesItemDisplayNameType1 | Unset:
+        def _parse_display_name(data: object) -> LocalizedText | str | Unset:
             if isinstance(data, Unset):
                 return data
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                display_name_type_1 = TemplatesListResponse200TemplatesItemDisplayNameType1.from_dict(data)
+                display_name_type_1 = LocalizedText.from_dict(data)
 
                 return display_name_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(str | TemplatesListResponse200TemplatesItemDisplayNameType1 | Unset, data)
+            return cast(LocalizedText | str | Unset, data)
 
         display_name = _parse_display_name(d.pop("displayName", UNSET))
 

@@ -6,17 +6,17 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.http_webhook_rule import HttpWebhookRule
+from ...models.http_webhook_rule_input import HttpWebhookRuleInput
 from ...models.notify_agent_webhook_rule import NotifyAgentWebhookRule
+from ...models.notify_agent_webhook_rule_input import NotifyAgentWebhookRuleInput
 from ...models.run_function_webhook_rule import RunFunctionWebhookRule
-from ...models.webhooks_create_body_type_0 import WebhooksCreateBodyType0
-from ...models.webhooks_create_body_type_1 import WebhooksCreateBodyType1
-from ...models.webhooks_create_body_type_2 import WebhooksCreateBodyType2
+from ...models.run_function_webhook_rule_input import RunFunctionWebhookRuleInput
 from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: WebhooksCreateBodyType0 | WebhooksCreateBodyType1 | WebhooksCreateBodyType2,
+    body: HttpWebhookRuleInput | NotifyAgentWebhookRuleInput | RunFunctionWebhookRuleInput,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -25,7 +25,7 @@ def _get_kwargs(
         "url": "/api/v1/webhooks",
     }
 
-    if isinstance(body, WebhooksCreateBodyType0) or isinstance(body, WebhooksCreateBodyType1):
+    if isinstance(body, HttpWebhookRuleInput) or isinstance(body, NotifyAgentWebhookRuleInput):
         _kwargs["json"] = body.to_dict()
     else:
         _kwargs["json"] = body.to_dict()
@@ -88,12 +88,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: WebhooksCreateBodyType0 | WebhooksCreateBodyType1 | WebhooksCreateBodyType2,
+    body: HttpWebhookRuleInput | NotifyAgentWebhookRuleInput | RunFunctionWebhookRuleInput,
 ) -> Response[HttpWebhookRule | NotifyAgentWebhookRule | RunFunctionWebhookRule]:
     """Create webhook automation rule
 
     Args:
-        body (WebhooksCreateBodyType0 | WebhooksCreateBodyType1 | WebhooksCreateBodyType2):
+        body (HttpWebhookRuleInput | NotifyAgentWebhookRuleInput | RunFunctionWebhookRuleInput):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -117,12 +117,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: WebhooksCreateBodyType0 | WebhooksCreateBodyType1 | WebhooksCreateBodyType2,
+    body: HttpWebhookRuleInput | NotifyAgentWebhookRuleInput | RunFunctionWebhookRuleInput,
 ) -> HttpWebhookRule | NotifyAgentWebhookRule | RunFunctionWebhookRule | None:
     """Create webhook automation rule
 
     Args:
-        body (WebhooksCreateBodyType0 | WebhooksCreateBodyType1 | WebhooksCreateBodyType2):
+        body (HttpWebhookRuleInput | NotifyAgentWebhookRuleInput | RunFunctionWebhookRuleInput):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -141,12 +141,12 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: WebhooksCreateBodyType0 | WebhooksCreateBodyType1 | WebhooksCreateBodyType2,
+    body: HttpWebhookRuleInput | NotifyAgentWebhookRuleInput | RunFunctionWebhookRuleInput,
 ) -> Response[HttpWebhookRule | NotifyAgentWebhookRule | RunFunctionWebhookRule]:
     """Create webhook automation rule
 
     Args:
-        body (WebhooksCreateBodyType0 | WebhooksCreateBodyType1 | WebhooksCreateBodyType2):
+        body (HttpWebhookRuleInput | NotifyAgentWebhookRuleInput | RunFunctionWebhookRuleInput):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -168,12 +168,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: WebhooksCreateBodyType0 | WebhooksCreateBodyType1 | WebhooksCreateBodyType2,
+    body: HttpWebhookRuleInput | NotifyAgentWebhookRuleInput | RunFunctionWebhookRuleInput,
 ) -> HttpWebhookRule | NotifyAgentWebhookRule | RunFunctionWebhookRule | None:
     """Create webhook automation rule
 
     Args:
-        body (WebhooksCreateBodyType0 | WebhooksCreateBodyType1 | WebhooksCreateBodyType2):
+        body (HttpWebhookRuleInput | NotifyAgentWebhookRuleInput | RunFunctionWebhookRuleInput):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

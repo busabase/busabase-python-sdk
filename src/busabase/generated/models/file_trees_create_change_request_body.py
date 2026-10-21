@@ -13,18 +13,10 @@ from ..models.file_trees_create_change_request_body_type import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.file_trees_create_change_request_body_operations_item_type_0 import (
-        FileTreesCreateChangeRequestBodyOperationsItemType0,
-    )
-    from ..models.file_trees_create_change_request_body_operations_item_type_1 import (
-        FileTreesCreateChangeRequestBodyOperationsItemType1,
-    )
-    from ..models.file_trees_create_change_request_body_operations_item_type_2 import (
-        FileTreesCreateChangeRequestBodyOperationsItemType2,
-    )
-    from ..models.file_trees_create_change_request_body_operations_item_type_3 import (
-        FileTreesCreateChangeRequestBodyOperationsItemType3,
-    )
+    from ..models.asset_file_operation import AssetFileOperation
+    from ..models.delete_file_operation import DeleteFileOperation
+    from ..models.file_tree_metadata_operation import FileTreeMetadataOperation
+    from ..models.text_file_operation import TextFileOperation
 
 
 T = TypeVar("T", bound="FileTreesCreateChangeRequestBody")
@@ -34,9 +26,7 @@ T = TypeVar("T", bound="FileTreesCreateChangeRequestBody")
 class FileTreesCreateChangeRequestBody:
     """
     Attributes:
-        operations (list[FileTreesCreateChangeRequestBodyOperationsItemType0 |
-            FileTreesCreateChangeRequestBodyOperationsItemType1 | FileTreesCreateChangeRequestBodyOperationsItemType2 |
-            FileTreesCreateChangeRequestBodyOperationsItemType3]):
+        operations (list[AssetFileOperation | DeleteFileOperation | FileTreeMetadataOperation | TextFileOperation]):
         message (str | Unset): Explanation shown to the human reviewer. Write a conventional-commit style subject —
             imperative verb + what + why, e.g. "Rewrite README.md quickstart for the new auth flow". Default: 'Update file
             tree'.
@@ -51,12 +41,7 @@ class FileTreesCreateChangeRequestBody:
             `nodeId` is an id.
     """
 
-    operations: list[
-        FileTreesCreateChangeRequestBodyOperationsItemType0
-        | FileTreesCreateChangeRequestBodyOperationsItemType1
-        | FileTreesCreateChangeRequestBodyOperationsItemType2
-        | FileTreesCreateChangeRequestBodyOperationsItemType3
-    ]
+    operations: list[AssetFileOperation | DeleteFileOperation | FileTreeMetadataOperation | TextFileOperation]
     message: str | Unset = "Update file tree"
     submitted_by: str | Unset = "local-producer"
     auto_merge: bool | Unset = UNSET
@@ -64,23 +49,17 @@ class FileTreesCreateChangeRequestBody:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.file_trees_create_change_request_body_operations_item_type_0 import (
-            FileTreesCreateChangeRequestBodyOperationsItemType0,
-        )
-        from ..models.file_trees_create_change_request_body_operations_item_type_1 import (
-            FileTreesCreateChangeRequestBodyOperationsItemType1,
-        )
-        from ..models.file_trees_create_change_request_body_operations_item_type_2 import (
-            FileTreesCreateChangeRequestBodyOperationsItemType2,
-        )
+        from ..models.asset_file_operation import AssetFileOperation
+        from ..models.delete_file_operation import DeleteFileOperation
+        from ..models.text_file_operation import TextFileOperation
 
         operations = []
         for operations_item_data in self.operations:
             operations_item: dict[str, Any]
             if (
-                isinstance(operations_item_data, FileTreesCreateChangeRequestBodyOperationsItemType0)
-                or isinstance(operations_item_data, FileTreesCreateChangeRequestBodyOperationsItemType1)
-                or isinstance(operations_item_data, FileTreesCreateChangeRequestBodyOperationsItemType2)
+                isinstance(operations_item_data, AssetFileOperation)
+                or isinstance(operations_item_data, TextFileOperation)
+                or isinstance(operations_item_data, DeleteFileOperation)
             ):
                 operations_item = operations_item_data.to_dict()
             else:
@@ -118,18 +97,10 @@ class FileTreesCreateChangeRequestBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.file_trees_create_change_request_body_operations_item_type_0 import (
-            FileTreesCreateChangeRequestBodyOperationsItemType0,
-        )
-        from ..models.file_trees_create_change_request_body_operations_item_type_1 import (
-            FileTreesCreateChangeRequestBodyOperationsItemType1,
-        )
-        from ..models.file_trees_create_change_request_body_operations_item_type_2 import (
-            FileTreesCreateChangeRequestBodyOperationsItemType2,
-        )
-        from ..models.file_trees_create_change_request_body_operations_item_type_3 import (
-            FileTreesCreateChangeRequestBodyOperationsItemType3,
-        )
+        from ..models.asset_file_operation import AssetFileOperation
+        from ..models.delete_file_operation import DeleteFileOperation
+        from ..models.file_tree_metadata_operation import FileTreeMetadataOperation
+        from ..models.text_file_operation import TextFileOperation
 
         d = dict(src_dict)
         operations = []
@@ -138,16 +109,11 @@ class FileTreesCreateChangeRequestBody:
 
             def _parse_operations_item(
                 data: object,
-            ) -> (
-                FileTreesCreateChangeRequestBodyOperationsItemType0
-                | FileTreesCreateChangeRequestBodyOperationsItemType1
-                | FileTreesCreateChangeRequestBodyOperationsItemType2
-                | FileTreesCreateChangeRequestBodyOperationsItemType3
-            ):
+            ) -> AssetFileOperation | DeleteFileOperation | FileTreeMetadataOperation | TextFileOperation:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    operations_item_type_0 = FileTreesCreateChangeRequestBodyOperationsItemType0.from_dict(data)
+                    operations_item_type_0 = AssetFileOperation.from_dict(data)
 
                     return operations_item_type_0
                 except (TypeError, ValueError, AttributeError, KeyError):
@@ -155,7 +121,7 @@ class FileTreesCreateChangeRequestBody:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    operations_item_type_1 = FileTreesCreateChangeRequestBodyOperationsItemType1.from_dict(data)
+                    operations_item_type_1 = TextFileOperation.from_dict(data)
 
                     return operations_item_type_1
                 except (TypeError, ValueError, AttributeError, KeyError):
@@ -163,14 +129,14 @@ class FileTreesCreateChangeRequestBody:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    operations_item_type_2 = FileTreesCreateChangeRequestBodyOperationsItemType2.from_dict(data)
+                    operations_item_type_2 = DeleteFileOperation.from_dict(data)
 
                     return operations_item_type_2
                 except (TypeError, ValueError, AttributeError, KeyError):
                     pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                operations_item_type_3 = FileTreesCreateChangeRequestBodyOperationsItemType3.from_dict(data)
+                operations_item_type_3 = FileTreeMetadataOperation.from_dict(data)
 
                 return operations_item_type_3
 

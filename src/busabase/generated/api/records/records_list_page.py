@@ -5,10 +5,10 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.record_filter import RecordFilter
+from ...models.record_sort import RecordSort
 from ...models.records_list_page_date_range import RecordsListPageDateRange
-from ...models.records_list_page_filters_item import RecordsListPageFiltersItem
 from ...models.records_list_page_response_200 import RecordsListPageResponse200
-from ...models.records_list_page_sort import RecordsListPageSort
 from ...types import UNSET, Response, Unset
 
 
@@ -16,9 +16,9 @@ def _get_kwargs(
     *,
     base_id: str,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsListPageFiltersItem] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
     date_range: RecordsListPageDateRange | Unset = UNSET,
-    sort: RecordsListPageSort | Unset = UNSET,
+    sort: RecordSort | Unset = UNSET,
     page: int | Unset = 1,
     page_size: int | Unset = 50,
 ) -> dict[str, Any]:
@@ -95,9 +95,9 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     base_id: str,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsListPageFiltersItem] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
     date_range: RecordsListPageDateRange | Unset = UNSET,
-    sort: RecordsListPageSort | Unset = UNSET,
+    sort: RecordSort | Unset = UNSET,
     page: int | Unset = 1,
     page_size: int | Unset = 50,
 ) -> Response[RecordsListPageResponse200]:
@@ -107,19 +107,15 @@ def sync_detailed(
         base_id (str): Required here, unlike `records.list` where omitting it spans the whole
             space.
         view_id (str | Unset): Show only what this saved View would: its filters and its sort.
-        filters (list[RecordsListPageFiltersItem] | Unset): Extra conditions ANDed with the View's
-            own — "this View, further narrowed". Unlike `records.list`'s `filters`, these are EXACT:
-            every page is precisely what the client's own matcher would keep, so a page is never
-            missing records it should hold.
+        filters (list[RecordFilter] | Unset): Extra conditions ANDed with the View's own — "this
+            View, further narrowed". Unlike `records.list`'s `filters`, these are EXACT: every page is
+            precisely what the client's own matcher would keep, so a page is never missing records it
+            should hold.
         date_range (RecordsListPageDateRange | Unset): Scope the page to a
             `date`/`created_time`/`updated_time` field falling in `[gte, lt)` — a half-open range of
             absolute UTC instants, not a `filters` condition. Resolve the bounds yourself: a day or a
             month only means something in a timezone, and the server does not know the viewer's.
-        sort (RecordsListPageSort | Unset): Sort by one field. Only number and date fields sort
-            authoritatively (their typed value column matches a client's own ordering); any other
-            field type is returned in the default order and left for the caller to sort. Replaces the
-            saved View's sort when `viewId` is also given (the View's filters still apply). Empty
-            values sort last; ties are broken by record id, so pages never overlap.
+        sort (RecordSort | Unset):
         page (int | Unset): 1-indexed, not 0-indexed. Default: 1.
         page_size (int | Unset): Records per page. Capped at 100. Default: 50.
 
@@ -153,9 +149,9 @@ def sync(
     client: AuthenticatedClient | Client,
     base_id: str,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsListPageFiltersItem] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
     date_range: RecordsListPageDateRange | Unset = UNSET,
-    sort: RecordsListPageSort | Unset = UNSET,
+    sort: RecordSort | Unset = UNSET,
     page: int | Unset = 1,
     page_size: int | Unset = 50,
 ) -> RecordsListPageResponse200 | None:
@@ -165,19 +161,15 @@ def sync(
         base_id (str): Required here, unlike `records.list` where omitting it spans the whole
             space.
         view_id (str | Unset): Show only what this saved View would: its filters and its sort.
-        filters (list[RecordsListPageFiltersItem] | Unset): Extra conditions ANDed with the View's
-            own — "this View, further narrowed". Unlike `records.list`'s `filters`, these are EXACT:
-            every page is precisely what the client's own matcher would keep, so a page is never
-            missing records it should hold.
+        filters (list[RecordFilter] | Unset): Extra conditions ANDed with the View's own — "this
+            View, further narrowed". Unlike `records.list`'s `filters`, these are EXACT: every page is
+            precisely what the client's own matcher would keep, so a page is never missing records it
+            should hold.
         date_range (RecordsListPageDateRange | Unset): Scope the page to a
             `date`/`created_time`/`updated_time` field falling in `[gte, lt)` — a half-open range of
             absolute UTC instants, not a `filters` condition. Resolve the bounds yourself: a day or a
             month only means something in a timezone, and the server does not know the viewer's.
-        sort (RecordsListPageSort | Unset): Sort by one field. Only number and date fields sort
-            authoritatively (their typed value column matches a client's own ordering); any other
-            field type is returned in the default order and left for the caller to sort. Replaces the
-            saved View's sort when `viewId` is also given (the View's filters still apply). Empty
-            values sort last; ties are broken by record id, so pages never overlap.
+        sort (RecordSort | Unset):
         page (int | Unset): 1-indexed, not 0-indexed. Default: 1.
         page_size (int | Unset): Records per page. Capped at 100. Default: 50.
 
@@ -206,9 +198,9 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     base_id: str,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsListPageFiltersItem] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
     date_range: RecordsListPageDateRange | Unset = UNSET,
-    sort: RecordsListPageSort | Unset = UNSET,
+    sort: RecordSort | Unset = UNSET,
     page: int | Unset = 1,
     page_size: int | Unset = 50,
 ) -> Response[RecordsListPageResponse200]:
@@ -218,19 +210,15 @@ async def asyncio_detailed(
         base_id (str): Required here, unlike `records.list` where omitting it spans the whole
             space.
         view_id (str | Unset): Show only what this saved View would: its filters and its sort.
-        filters (list[RecordsListPageFiltersItem] | Unset): Extra conditions ANDed with the View's
-            own — "this View, further narrowed". Unlike `records.list`'s `filters`, these are EXACT:
-            every page is precisely what the client's own matcher would keep, so a page is never
-            missing records it should hold.
+        filters (list[RecordFilter] | Unset): Extra conditions ANDed with the View's own — "this
+            View, further narrowed". Unlike `records.list`'s `filters`, these are EXACT: every page is
+            precisely what the client's own matcher would keep, so a page is never missing records it
+            should hold.
         date_range (RecordsListPageDateRange | Unset): Scope the page to a
             `date`/`created_time`/`updated_time` field falling in `[gte, lt)` — a half-open range of
             absolute UTC instants, not a `filters` condition. Resolve the bounds yourself: a day or a
             month only means something in a timezone, and the server does not know the viewer's.
-        sort (RecordsListPageSort | Unset): Sort by one field. Only number and date fields sort
-            authoritatively (their typed value column matches a client's own ordering); any other
-            field type is returned in the default order and left for the caller to sort. Replaces the
-            saved View's sort when `viewId` is also given (the View's filters still apply). Empty
-            values sort last; ties are broken by record id, so pages never overlap.
+        sort (RecordSort | Unset):
         page (int | Unset): 1-indexed, not 0-indexed. Default: 1.
         page_size (int | Unset): Records per page. Capped at 100. Default: 50.
 
@@ -262,9 +250,9 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     base_id: str,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsListPageFiltersItem] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
     date_range: RecordsListPageDateRange | Unset = UNSET,
-    sort: RecordsListPageSort | Unset = UNSET,
+    sort: RecordSort | Unset = UNSET,
     page: int | Unset = 1,
     page_size: int | Unset = 50,
 ) -> RecordsListPageResponse200 | None:
@@ -274,19 +262,15 @@ async def asyncio(
         base_id (str): Required here, unlike `records.list` where omitting it spans the whole
             space.
         view_id (str | Unset): Show only what this saved View would: its filters and its sort.
-        filters (list[RecordsListPageFiltersItem] | Unset): Extra conditions ANDed with the View's
-            own — "this View, further narrowed". Unlike `records.list`'s `filters`, these are EXACT:
-            every page is precisely what the client's own matcher would keep, so a page is never
-            missing records it should hold.
+        filters (list[RecordFilter] | Unset): Extra conditions ANDed with the View's own — "this
+            View, further narrowed". Unlike `records.list`'s `filters`, these are EXACT: every page is
+            precisely what the client's own matcher would keep, so a page is never missing records it
+            should hold.
         date_range (RecordsListPageDateRange | Unset): Scope the page to a
             `date`/`created_time`/`updated_time` field falling in `[gte, lt)` — a half-open range of
             absolute UTC instants, not a `filters` condition. Resolve the bounds yourself: a day or a
             month only means something in a timezone, and the server does not know the viewer's.
-        sort (RecordsListPageSort | Unset): Sort by one field. Only number and date fields sort
-            authoritatively (their typed value column matches a client's own ordering); any other
-            field type is returned in the default order and left for the caller to sort. Replaces the
-            saved View's sort when `viewId` is also given (the View's filters still apply). Empty
-            values sort last; ties are broken by record id, so pages never overlap.
+        sort (RecordSort | Unset):
         page (int | Unset): 1-indexed, not 0-indexed. Default: 1.
         page_size (int | Unset): Records per page. Capped at 100. Default: 50.
 

@@ -9,9 +9,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.forms_create_body_bindings_item import FormsCreateBodyBindingsItem
-    from ..models.forms_create_body_page import FormsCreateBodyPage
-    from ..models.forms_create_body_share import FormsCreateBodyShare
+    from ..models.form_field_binding import FormFieldBinding
+    from ..models.form_page import FormPage
+    from ..models.form_share import FormShare
 
 
 T = TypeVar("T", bound="FormsCreateBody")
@@ -25,18 +25,18 @@ class FormsCreateBody:
         target_base_id (str):
         name (str):
         description (str | Unset):  Default: ''.
-        bindings (list[FormsCreateBodyBindingsItem] | Unset):
-        page (FormsCreateBodyPage | Unset):
-        share (FormsCreateBodyShare | Unset):
+        bindings (list[FormFieldBinding] | Unset):
+        page (FormPage | Unset):
+        share (FormShare | Unset):
     """
 
     node_id: str
     target_base_id: str
     name: str
     description: str | Unset = ""
-    bindings: list[FormsCreateBodyBindingsItem] | Unset = UNSET
-    page: FormsCreateBodyPage | Unset = UNSET
-    share: FormsCreateBodyShare | Unset = UNSET
+    bindings: list[FormFieldBinding] | Unset = UNSET
+    page: FormPage | Unset = UNSET
+    share: FormShare | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -85,9 +85,9 @@ class FormsCreateBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.forms_create_body_bindings_item import FormsCreateBodyBindingsItem
-        from ..models.forms_create_body_page import FormsCreateBodyPage
-        from ..models.forms_create_body_share import FormsCreateBodyShare
+        from ..models.form_field_binding import FormFieldBinding
+        from ..models.form_page import FormPage
+        from ..models.form_share import FormShare
 
         d = dict(src_dict)
         node_id = d.pop("nodeId")
@@ -99,27 +99,27 @@ class FormsCreateBody:
         description = d.pop("description", UNSET)
 
         _bindings = d.pop("bindings", UNSET)
-        bindings: list[FormsCreateBodyBindingsItem] | Unset = UNSET
+        bindings: list[FormFieldBinding] | Unset = UNSET
         if _bindings is not UNSET:
             bindings = []
             for bindings_item_data in _bindings:
-                bindings_item = FormsCreateBodyBindingsItem.from_dict(bindings_item_data)
+                bindings_item = FormFieldBinding.from_dict(bindings_item_data)
 
                 bindings.append(bindings_item)
 
         _page = d.pop("page", UNSET)
-        page: FormsCreateBodyPage | Unset
+        page: FormPage | Unset
         if isinstance(_page, Unset):
             page = UNSET
         else:
-            page = FormsCreateBodyPage.from_dict(_page)
+            page = FormPage.from_dict(_page)
 
         _share = d.pop("share", UNSET)
-        share: FormsCreateBodyShare | Unset
+        share: FormShare | Unset
         if isinstance(_share, Unset):
             share = UNSET
         else:
-            share = FormsCreateBodyShare.from_dict(_share)
+            share = FormShare.from_dict(_share)
 
         forms_create_body = cls(
             node_id=node_id,

@@ -6,10 +6,10 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.builtin_file_preview import BuiltinFilePreview
 from ...models.file_trees_prepare_preview_body import FileTreesPreparePreviewBody
-from ...models.file_trees_prepare_preview_response_200_type_0 import FileTreesPreparePreviewResponse200Type0
-from ...models.file_trees_prepare_preview_response_200_type_1 import FileTreesPreparePreviewResponse200Type1
-from ...models.file_trees_prepare_preview_response_200_type_2 import FileTreesPreparePreviewResponse200Type2
+from ...models.ready_file_preview import ReadyFilePreview
+from ...models.unavailable_file_preview import UnavailableFilePreview
 from ...types import Response
 
 
@@ -37,25 +37,14 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> (
-    FileTreesPreparePreviewResponse200Type0
-    | FileTreesPreparePreviewResponse200Type1
-    | FileTreesPreparePreviewResponse200Type2
-    | None
-):
+) -> BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview | None:
     if response.status_code == 200:
 
-        def _parse_response_200(
-            data: object,
-        ) -> (
-            FileTreesPreparePreviewResponse200Type0
-            | FileTreesPreparePreviewResponse200Type1
-            | FileTreesPreparePreviewResponse200Type2
-        ):
+        def _parse_response_200(data: object) -> BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                response_200_type_0 = FileTreesPreparePreviewResponse200Type0.from_dict(data)
+                response_200_type_0 = BuiltinFilePreview.from_dict(data)
 
                 return response_200_type_0
             except (TypeError, ValueError, AttributeError, KeyError):
@@ -63,14 +52,14 @@ def _parse_response(
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                response_200_type_1 = FileTreesPreparePreviewResponse200Type1.from_dict(data)
+                response_200_type_1 = ReadyFilePreview.from_dict(data)
 
                 return response_200_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             if not isinstance(data, dict):
                 raise TypeError()
-            response_200_type_2 = FileTreesPreparePreviewResponse200Type2.from_dict(data)
+            response_200_type_2 = UnavailableFilePreview.from_dict(data)
 
             return response_200_type_2
 
@@ -86,11 +75,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[
-    FileTreesPreparePreviewResponse200Type0
-    | FileTreesPreparePreviewResponse200Type1
-    | FileTreesPreparePreviewResponse200Type2
-]:
+) -> Response[BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -104,11 +89,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: FileTreesPreparePreviewBody,
-) -> Response[
-    FileTreesPreparePreviewResponse200Type0
-    | FileTreesPreparePreviewResponse200Type1
-    | FileTreesPreparePreviewResponse200Type2
-]:
+) -> Response[BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview]:
     """Prepare a Drive file preview
 
     Args:
@@ -120,7 +101,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FileTreesPreparePreviewResponse200Type0 | FileTreesPreparePreviewResponse200Type1 | FileTreesPreparePreviewResponse200Type2]
+        Response[BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview]
     """
 
     kwargs = _get_kwargs(
@@ -140,12 +121,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     body: FileTreesPreparePreviewBody,
-) -> (
-    FileTreesPreparePreviewResponse200Type0
-    | FileTreesPreparePreviewResponse200Type1
-    | FileTreesPreparePreviewResponse200Type2
-    | None
-):
+) -> BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview | None:
     """Prepare a Drive file preview
 
     Args:
@@ -157,7 +133,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FileTreesPreparePreviewResponse200Type0 | FileTreesPreparePreviewResponse200Type1 | FileTreesPreparePreviewResponse200Type2
+        BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview
     """
 
     return sync_detailed(
@@ -172,11 +148,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: FileTreesPreparePreviewBody,
-) -> Response[
-    FileTreesPreparePreviewResponse200Type0
-    | FileTreesPreparePreviewResponse200Type1
-    | FileTreesPreparePreviewResponse200Type2
-]:
+) -> Response[BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview]:
     """Prepare a Drive file preview
 
     Args:
@@ -188,7 +160,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FileTreesPreparePreviewResponse200Type0 | FileTreesPreparePreviewResponse200Type1 | FileTreesPreparePreviewResponse200Type2]
+        Response[BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview]
     """
 
     kwargs = _get_kwargs(
@@ -206,12 +178,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     body: FileTreesPreparePreviewBody,
-) -> (
-    FileTreesPreparePreviewResponse200Type0
-    | FileTreesPreparePreviewResponse200Type1
-    | FileTreesPreparePreviewResponse200Type2
-    | None
-):
+) -> BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview | None:
     """Prepare a Drive file preview
 
     Args:
@@ -223,7 +190,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FileTreesPreparePreviewResponse200Type0 | FileTreesPreparePreviewResponse200Type1 | FileTreesPreparePreviewResponse200Type2
+        BuiltinFilePreview | ReadyFilePreview | UnavailableFilePreview
     """
 
     return (

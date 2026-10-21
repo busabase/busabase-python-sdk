@@ -5,21 +5,18 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.create_view_operation import CreateViewOperation
+from ...models.delete_view_operation import DeleteViewOperation
 from ...models.materialized_view import MaterializedView
 from ...models.pending_change_request import PendingChangeRequest
-from ...models.views_change_request_body_type_0 import ViewsChangeRequestBodyType0
-from ...models.views_change_request_body_type_1 import ViewsChangeRequestBodyType1
-from ...models.views_change_request_body_type_2 import ViewsChangeRequestBodyType2
-from ...models.views_change_request_body_type_3 import ViewsChangeRequestBodyType3
+from ...models.restore_view_operation import RestoreViewOperation
+from ...models.update_view_operation import UpdateViewOperation
 from ...types import Response
 
 
 def _get_kwargs(
     *,
-    body: ViewsChangeRequestBodyType0
-    | ViewsChangeRequestBodyType1
-    | ViewsChangeRequestBodyType2
-    | ViewsChangeRequestBodyType3,
+    body: CreateViewOperation | DeleteViewOperation | RestoreViewOperation | UpdateViewOperation,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -29,9 +26,9 @@ def _get_kwargs(
     }
 
     if (
-        isinstance(body, ViewsChangeRequestBodyType0)
-        or isinstance(body, ViewsChangeRequestBodyType1)
-        or isinstance(body, ViewsChangeRequestBodyType2)
+        isinstance(body, CreateViewOperation)
+        or isinstance(body, UpdateViewOperation)
+        or isinstance(body, DeleteViewOperation)
     ):
         _kwargs["json"] = body.to_dict()
     else:
@@ -87,16 +84,13 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: ViewsChangeRequestBodyType0
-    | ViewsChangeRequestBodyType1
-    | ViewsChangeRequestBodyType2
-    | ViewsChangeRequestBodyType3,
+    body: CreateViewOperation | DeleteViewOperation | RestoreViewOperation | UpdateViewOperation,
 ) -> Response[MaterializedView | PendingChangeRequest]:
     """Create view change request
 
     Args:
-        body (ViewsChangeRequestBodyType0 | ViewsChangeRequestBodyType1 |
-            ViewsChangeRequestBodyType2 | ViewsChangeRequestBodyType3):
+        body (CreateViewOperation | DeleteViewOperation | RestoreViewOperation |
+            UpdateViewOperation):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -120,16 +114,13 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    body: ViewsChangeRequestBodyType0
-    | ViewsChangeRequestBodyType1
-    | ViewsChangeRequestBodyType2
-    | ViewsChangeRequestBodyType3,
+    body: CreateViewOperation | DeleteViewOperation | RestoreViewOperation | UpdateViewOperation,
 ) -> MaterializedView | PendingChangeRequest | None:
     """Create view change request
 
     Args:
-        body (ViewsChangeRequestBodyType0 | ViewsChangeRequestBodyType1 |
-            ViewsChangeRequestBodyType2 | ViewsChangeRequestBodyType3):
+        body (CreateViewOperation | DeleteViewOperation | RestoreViewOperation |
+            UpdateViewOperation):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -148,16 +139,13 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    body: ViewsChangeRequestBodyType0
-    | ViewsChangeRequestBodyType1
-    | ViewsChangeRequestBodyType2
-    | ViewsChangeRequestBodyType3,
+    body: CreateViewOperation | DeleteViewOperation | RestoreViewOperation | UpdateViewOperation,
 ) -> Response[MaterializedView | PendingChangeRequest]:
     """Create view change request
 
     Args:
-        body (ViewsChangeRequestBodyType0 | ViewsChangeRequestBodyType1 |
-            ViewsChangeRequestBodyType2 | ViewsChangeRequestBodyType3):
+        body (CreateViewOperation | DeleteViewOperation | RestoreViewOperation |
+            UpdateViewOperation):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -179,16 +167,13 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    body: ViewsChangeRequestBodyType0
-    | ViewsChangeRequestBodyType1
-    | ViewsChangeRequestBodyType2
-    | ViewsChangeRequestBodyType3,
+    body: CreateViewOperation | DeleteViewOperation | RestoreViewOperation | UpdateViewOperation,
 ) -> MaterializedView | PendingChangeRequest | None:
     """Create view change request
 
     Args:
-        body (ViewsChangeRequestBodyType0 | ViewsChangeRequestBodyType1 |
-            ViewsChangeRequestBodyType2 | ViewsChangeRequestBodyType3):
+        body (CreateViewOperation | DeleteViewOperation | RestoreViewOperation |
+            UpdateViewOperation):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -132,6 +132,67 @@ Busabase(
 
 Use it as a context manager (`with Busabase() as bb:`) or call `bb.close()` to release connections.
 
+## Changes in 0.2.0
+
+Request models that used to have positional, generated names now have real ones, so you can build
+a request from typed models instead of a `dict` (a `dict` still works everywhere). **If you import
+any of the old names from `busabase.generated.models`, rename them** — the wire format and every
+`bb.<group>.<operation>(...)` call are unchanged.
+
+| 0.1.0 | 0.2.0 |
+| --- | --- |
+| `NodesCreateChangeRequestBodyOperationsItemType0` … `Type4` | `CreateNodeOperation`, `RenameNodeOperation`, `DeleteNodeOperation`, `RestoreNodeOperation`, `MoveNodeOperation` |
+| `FileTreesCreateChangeRequestBodyOperationsItemType0` … `Type3` | `AssetFileOperation`, `TextFileOperation`, `DeleteFileOperation`, `FileTreeMetadataOperation` |
+| `FileTreesCreateBodyFilesItemType0` / `Type1` | `AssetFileInput` / `TextFileInput` |
+| `ViewsChangeRequestBodyType0` … `Type3` | `CreateViewOperation`, `UpdateViewOperation`, `DeleteViewOperation`, `RestoreViewOperation` |
+| `NodesUpdateContentBodyContentType0` … `Type3` | `DocNodeContent`, `WhiteboardNodeContent`, `WorkflowNodeContent`, `HtmlNodeContent` |
+| `EmbedLinksCreateBodyFramePolicyType0` … `Type2` | `EmbedFramePolicyAnywhere`, `EmbedFramePolicyOrigins`, `EmbedFramePolicyTopLevelOnly` |
+| `WebhooksCreateBodyType0` … `Type2`, `WebhooksCreateBodyType0Config` | `HttpWebhookRuleInput`, `NotifyAgentWebhookRuleInput`, `RunFunctionWebhookRuleInput`, `WebhookHttpConfigInput` |
+| `RecordsListFiltersItem` (and the `count` / `group_by` / `list_page` copies), `RecordsListSort` | `RecordFilter`, `RecordSort` |
+| `RecordsListValueFiltersItemType0` / `Type1` (and copies) | `RecordValueComparison` / `RecordValueAnyOf` |
+| `ViewConfigFiltersItem`, `ViewConfigSortsItem` | `ViewFilter`, `ViewSort` |
+| `FieldOptionsChoicesItem`, `FieldOptionsHelp`, `BasesFieldChangeRequestBodyPatchOptions*` | `FieldChoice`, `FieldHelp`, the shared `FieldOptions*` models |
+| `BaseFieldNameType1` (and copies) | `LocalizedFieldName` |
+| `FormBindingsItem`, `FormPageTheme`, `FormsCreateBody*` / `FormsUpdateBody*` copies | `FormFieldBinding`, `FormTheme`, the shared `FormPage` / `FormShare` |
+| `NodeAgentPromptsAgentPromptsType0Item` (and the update-body copy), `…LabelType1` / `…BodyType1` | `NodeAgentPrompt`, `LocalizedText` |
+| `NodesResolveRouteStateResponse200Type0` … `Type2` | `ActiveNodeRouteState`, `ArchivedNodeRouteState`, `UnavailableNodeRouteState` |
+| `FileTreesPreparePreviewResponse200Type0` … `Type2` | `BuiltinFilePreview`, `ReadyFilePreview`, `UnavailableFilePreview` |
+| `ChangeRequestsReviewResponse200ResultsItemType0`, `ChangeRequestsMergeResponse200ResultsItemType0`, `…Type1` | `ChangeRequestReviewSuccess`, `ChangeRequestMergeSuccess`, `ChangeRequestBatchFailure` |
+| `WorkflowDocumentNodesItemType0` … `Type7`, `…Position` | `TriggerWorkflowNode`, `WebhookWorkflowNode`, `FunctionWorkflowNode`, `ConditionWorkflowNode`, `WaitWorkflowNode`, `ApprovalWorkflowNode`, `ActionWorkflowNode`, `EndWorkflowNode`, `WorkflowNodePosition` |
+| `AuthVerifyResponse200Space` / `…SpacesItem`, `MaterializedBaseReviewPolicy` | `AuthSpace`, `BaseReviewPolicy` |
+
+```python
+from busabase.generated.models import CreateNodeOperation, NodesCreateChangeRequestBody
+
+bb.nodes.create_change_request(
+    body=NodesCreateChangeRequestBody(
+        operations=[CreateNodeOperation(kind="create", node_type="folder", slug="calls", name="Calls")],
+        message="Add a folder for call notes",
+    )
+)
+```
+
+**Fixed: object and array query parameters.** `filters`, `value_filters` and `sort` on
+`records.list` / `list_page` / `count` / `group_by` (plus `date_range`, `aggregates`, and
+`status` on `change_requests.list` / `list_page`) are now sent the way the server reads them —
+`filters[0][fieldSlug]=company&sort[direction]=desc`. In 0.1.0 a filter list was rejected with a
+400 and `sort` was silently ignored (an unsorted page). They accept the generated models or plain
+dicts, through `bb.…` and through `busabase.generated.api` alike:
+
+```python
+from busabase.generated.models import RecordFilter, RecordSort, RecordValueComparison
+
+page = bb.records.list(
+    base_id="bas_...",
+    filters=[RecordFilter(field_slug="company", field_type="text", operator="equals", value="Acme")],
+    value_filters=[RecordValueComparison(field_slug="score", operator="gte", value=40)],
+    sort=RecordSort(field_slug="score", field_type="number", direction="desc"),
+)
+```
+
+View `filters` are a best-effort superset unless they carry a `field_type`; `value_filters` are
+always exact.
+
 ## Development
 
 ```bash

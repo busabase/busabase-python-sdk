@@ -18,9 +18,9 @@ from ..models.file_trees_create_body_visibility import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.file_trees_create_body_files_item_type_0 import FileTreesCreateBodyFilesItemType0
-    from ..models.file_trees_create_body_files_item_type_1 import FileTreesCreateBodyFilesItemType1
+    from ..models.asset_file_input import AssetFileInput
     from ..models.file_trees_create_body_metadata import FileTreesCreateBodyMetadata
+    from ..models.text_file_input import TextFileInput
 
 
 T = TypeVar("T", bound="FileTreesCreateBody")
@@ -39,7 +39,7 @@ class FileTreesCreateBody:
         visibility (FileTreesCreateBodyVisibility | Unset):
         version (str | Unset):  Default: '0.1.0'.
         metadata (FileTreesCreateBodyMetadata | Unset):
-        files (list[FileTreesCreateBodyFilesItemType0 | FileTreesCreateBodyFilesItemType1] | Unset):
+        files (list[AssetFileInput | TextFileInput] | Unset):
         auto_merge (bool | Unset):
         merge_mode (FileTreesCreateBodyMergeMode | Unset):  Default: 'merge'.
     """
@@ -52,13 +52,13 @@ class FileTreesCreateBody:
     visibility: FileTreesCreateBodyVisibility | Unset = UNSET
     version: str | Unset = "0.1.0"
     metadata: FileTreesCreateBodyMetadata | Unset = UNSET
-    files: list[FileTreesCreateBodyFilesItemType0 | FileTreesCreateBodyFilesItemType1] | Unset = UNSET
+    files: list[AssetFileInput | TextFileInput] | Unset = UNSET
     auto_merge: bool | Unset = UNSET
     merge_mode: FileTreesCreateBodyMergeMode | Unset = "merge"
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.file_trees_create_body_files_item_type_0 import FileTreesCreateBodyFilesItemType0
+        from ..models.asset_file_input import AssetFileInput
 
         slug = self.slug
 
@@ -85,7 +85,7 @@ class FileTreesCreateBody:
             files = []
             for files_item_data in self.files:
                 files_item: dict[str, Any]
-                if isinstance(files_item_data, FileTreesCreateBodyFilesItemType0):
+                if isinstance(files_item_data, AssetFileInput):
                     files_item = files_item_data.to_dict()
                 else:
                     files_item = files_item_data.to_dict()
@@ -128,9 +128,9 @@ class FileTreesCreateBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.file_trees_create_body_files_item_type_0 import FileTreesCreateBodyFilesItemType0
-        from ..models.file_trees_create_body_files_item_type_1 import FileTreesCreateBodyFilesItemType1
+        from ..models.asset_file_input import AssetFileInput
         from ..models.file_trees_create_body_metadata import FileTreesCreateBodyMetadata
+        from ..models.text_file_input import TextFileInput
 
         d = dict(src_dict)
         slug = d.pop("slug")
@@ -160,25 +160,23 @@ class FileTreesCreateBody:
             metadata = FileTreesCreateBodyMetadata.from_dict(_metadata)
 
         _files = d.pop("files", UNSET)
-        files: list[FileTreesCreateBodyFilesItemType0 | FileTreesCreateBodyFilesItemType1] | Unset = UNSET
+        files: list[AssetFileInput | TextFileInput] | Unset = UNSET
         if _files is not UNSET:
             files = []
             for files_item_data in _files:
 
-                def _parse_files_item(
-                    data: object,
-                ) -> FileTreesCreateBodyFilesItemType0 | FileTreesCreateBodyFilesItemType1:
+                def _parse_files_item(data: object) -> AssetFileInput | TextFileInput:
                     try:
                         if not isinstance(data, dict):
                             raise TypeError()
-                        files_item_type_0 = FileTreesCreateBodyFilesItemType0.from_dict(data)
+                        files_item_type_0 = AssetFileInput.from_dict(data)
 
                         return files_item_type_0
                     except (TypeError, ValueError, AttributeError, KeyError):
                         pass
                     if not isinstance(data, dict):
                         raise TypeError()
-                    files_item_type_1 = FileTreesCreateBodyFilesItemType1.from_dict(data)
+                    files_item_type_1 = TextFileInput.from_dict(data)
 
                     return files_item_type_1
 

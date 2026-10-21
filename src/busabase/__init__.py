@@ -13,8 +13,13 @@ operation in `busabase.generated.api`). Any HTTP error raises `BusabaseError`.
 
 from ._client import DEFAULT_BASE_URL, Busabase, Operation, normalize_base_url
 from ._errors import BusabaseError
+from ._query import install as _install_deep_object_query_params
 from ._version import __version__
 from .generated.types import UNSET, Unset
+
+# Object/array query parameters (`filters`, `sort`, ...) in the bracket notation
+# the server parses — for `bb.…` calls and direct `busabase.generated.api` calls.
+_install_deep_object_query_params()
 
 __all__ = [
     "DEFAULT_BASE_URL",

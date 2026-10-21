@@ -7,12 +7,8 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.change_requests_merge_response_200_results_item_type_0 import (
-        ChangeRequestsMergeResponse200ResultsItemType0,
-    )
-    from ..models.change_requests_merge_response_200_results_item_type_1 import (
-        ChangeRequestsMergeResponse200ResultsItemType1,
-    )
+    from ..models.change_request_batch_failure import ChangeRequestBatchFailure
+    from ..models.change_request_merge_success import ChangeRequestMergeSuccess
 
 
 T = TypeVar("T", bound="ChangeRequestsMergeResponse200")
@@ -22,21 +18,19 @@ T = TypeVar("T", bound="ChangeRequestsMergeResponse200")
 class ChangeRequestsMergeResponse200:
     """
     Attributes:
-        results (list[ChangeRequestsMergeResponse200ResultsItemType0 | ChangeRequestsMergeResponse200ResultsItemType1]):
+        results (list[ChangeRequestBatchFailure | ChangeRequestMergeSuccess]):
     """
 
-    results: list[ChangeRequestsMergeResponse200ResultsItemType0 | ChangeRequestsMergeResponse200ResultsItemType1]
+    results: list[ChangeRequestBatchFailure | ChangeRequestMergeSuccess]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.change_requests_merge_response_200_results_item_type_0 import (
-            ChangeRequestsMergeResponse200ResultsItemType0,
-        )
+        from ..models.change_request_merge_success import ChangeRequestMergeSuccess
 
         results = []
         for results_item_data in self.results:
             results_item: dict[str, Any]
-            if isinstance(results_item_data, ChangeRequestsMergeResponse200ResultsItemType0):
+            if isinstance(results_item_data, ChangeRequestMergeSuccess):
                 results_item = results_item_data.to_dict()
             else:
                 results_item = results_item_data.to_dict()
@@ -55,32 +49,26 @@ class ChangeRequestsMergeResponse200:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.change_requests_merge_response_200_results_item_type_0 import (
-            ChangeRequestsMergeResponse200ResultsItemType0,
-        )
-        from ..models.change_requests_merge_response_200_results_item_type_1 import (
-            ChangeRequestsMergeResponse200ResultsItemType1,
-        )
+        from ..models.change_request_batch_failure import ChangeRequestBatchFailure
+        from ..models.change_request_merge_success import ChangeRequestMergeSuccess
 
         d = dict(src_dict)
         results = []
         _results = d.pop("results")
         for results_item_data in _results:
 
-            def _parse_results_item(
-                data: object,
-            ) -> ChangeRequestsMergeResponse200ResultsItemType0 | ChangeRequestsMergeResponse200ResultsItemType1:
+            def _parse_results_item(data: object) -> ChangeRequestBatchFailure | ChangeRequestMergeSuccess:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    results_item_type_0 = ChangeRequestsMergeResponse200ResultsItemType0.from_dict(data)
+                    results_item_type_0 = ChangeRequestMergeSuccess.from_dict(data)
 
                     return results_item_type_0
                 except (TypeError, ValueError, AttributeError, KeyError):
                     pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                results_item_type_1 = ChangeRequestsMergeResponse200ResultsItemType1.from_dict(data)
+                results_item_type_1 = ChangeRequestBatchFailure.from_dict(data)
 
                 return results_item_type_1
 

@@ -21,9 +21,9 @@ from ..models.bases_field_change_request_body_type import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.bases_field_change_request_body_name_type_1 import BasesFieldChangeRequestBodyNameType1
     from ..models.bases_field_change_request_body_patch import BasesFieldChangeRequestBodyPatch
     from ..models.field_options import FieldOptions
+    from ..models.localized_field_name import LocalizedFieldName
 
 
 T = TypeVar("T", bound="BasesFieldChangeRequestBody")
@@ -35,7 +35,7 @@ class BasesFieldChangeRequestBody:
     Attributes:
         operation (Literal['convert'] | Literal['create'] | Literal['delete'] | Literal['reorder'] | Literal['restore']
             | Literal['update']):
-        name (BasesFieldChangeRequestBodyNameType1 | str | Unset):
+        name (LocalizedFieldName | str | Unset):
         slug (str | Unset):
         type_ (BasesFieldChangeRequestBodyType | Unset):  Default: 'text'.
         required (bool | Unset):  Default: False.
@@ -51,7 +51,7 @@ class BasesFieldChangeRequestBody:
     """
 
     operation: Literal["convert", "create", "delete", "reorder", "restore", "update"]
-    name: BasesFieldChangeRequestBodyNameType1 | str | Unset = UNSET
+    name: LocalizedFieldName | str | Unset = UNSET
     slug: str | Unset = UNSET
     type_: BasesFieldChangeRequestBodyType | Unset = "text"
     required: bool | Unset = False
@@ -67,7 +67,7 @@ class BasesFieldChangeRequestBody:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.bases_field_change_request_body_name_type_1 import BasesFieldChangeRequestBodyNameType1
+        from ..models.localized_field_name import LocalizedFieldName
 
         operation: Literal["convert", "create", "delete", "reorder", "restore", "update"]
         operation = self.operation
@@ -75,7 +75,7 @@ class BasesFieldChangeRequestBody:
         name: dict[str, Any] | str | Unset
         if isinstance(self.name, Unset):
             name = UNSET
-        elif isinstance(self.name, BasesFieldChangeRequestBodyNameType1):
+        elif isinstance(self.name, LocalizedFieldName):
             name = self.name.to_dict()
         else:
             name = self.name
@@ -162,9 +162,9 @@ class BasesFieldChangeRequestBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.bases_field_change_request_body_name_type_1 import BasesFieldChangeRequestBodyNameType1
         from ..models.bases_field_change_request_body_patch import BasesFieldChangeRequestBodyPatch
         from ..models.field_options import FieldOptions
+        from ..models.localized_field_name import LocalizedFieldName
 
         d = dict(src_dict)
 
@@ -196,18 +196,18 @@ class BasesFieldChangeRequestBody:
 
         operation = _parse_operation(d.pop("operation"))
 
-        def _parse_name(data: object) -> BasesFieldChangeRequestBodyNameType1 | str | Unset:
+        def _parse_name(data: object) -> LocalizedFieldName | str | Unset:
             if isinstance(data, Unset):
                 return data
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                name_type_1 = BasesFieldChangeRequestBodyNameType1.from_dict(data)
+                name_type_1 = LocalizedFieldName.from_dict(data)
 
                 return name_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(BasesFieldChangeRequestBodyNameType1 | str | Unset, data)
+            return cast(LocalizedFieldName | str | Unset, data)
 
         name = _parse_name(d.pop("name", UNSET))
 

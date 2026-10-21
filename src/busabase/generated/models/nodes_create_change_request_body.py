@@ -9,21 +9,11 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.nodes_create_change_request_body_operations_item_type_0 import (
-        NodesCreateChangeRequestBodyOperationsItemType0,
-    )
-    from ..models.nodes_create_change_request_body_operations_item_type_1 import (
-        NodesCreateChangeRequestBodyOperationsItemType1,
-    )
-    from ..models.nodes_create_change_request_body_operations_item_type_2 import (
-        NodesCreateChangeRequestBodyOperationsItemType2,
-    )
-    from ..models.nodes_create_change_request_body_operations_item_type_3 import (
-        NodesCreateChangeRequestBodyOperationsItemType3,
-    )
-    from ..models.nodes_create_change_request_body_operations_item_type_4 import (
-        NodesCreateChangeRequestBodyOperationsItemType4,
-    )
+    from ..models.create_node_operation import CreateNodeOperation
+    from ..models.delete_node_operation import DeleteNodeOperation
+    from ..models.move_node_operation import MoveNodeOperation
+    from ..models.rename_node_operation import RenameNodeOperation
+    from ..models.restore_node_operation import RestoreNodeOperation
 
 
 T = TypeVar("T", bound="NodesCreateChangeRequestBody")
@@ -33,9 +23,8 @@ T = TypeVar("T", bound="NodesCreateChangeRequestBody")
 class NodesCreateChangeRequestBody:
     """
     Attributes:
-        operations (list[NodesCreateChangeRequestBodyOperationsItemType0 |
-            NodesCreateChangeRequestBodyOperationsItemType1 | NodesCreateChangeRequestBodyOperationsItemType2 |
-            NodesCreateChangeRequestBodyOperationsItemType3 | NodesCreateChangeRequestBodyOperationsItemType4]):
+        operations (list[CreateNodeOperation | DeleteNodeOperation | MoveNodeOperation | RenameNodeOperation |
+            RestoreNodeOperation]):
         message (str | Unset): Explanation shown to the human reviewer. Write a conventional-commit style subject —
             imperative verb + what + why, e.g. "Reorganize marketing docs under a Campaigns folder". Default: 'Update node
             tree'.
@@ -46,11 +35,7 @@ class NodesCreateChangeRequestBody:
     """
 
     operations: list[
-        NodesCreateChangeRequestBodyOperationsItemType0
-        | NodesCreateChangeRequestBodyOperationsItemType1
-        | NodesCreateChangeRequestBodyOperationsItemType2
-        | NodesCreateChangeRequestBodyOperationsItemType3
-        | NodesCreateChangeRequestBodyOperationsItemType4
+        CreateNodeOperation | DeleteNodeOperation | MoveNodeOperation | RenameNodeOperation | RestoreNodeOperation
     ]
     message: str | Unset = "Update node tree"
     submitted_by: str | Unset = "local-producer"
@@ -58,27 +43,19 @@ class NodesCreateChangeRequestBody:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.nodes_create_change_request_body_operations_item_type_0 import (
-            NodesCreateChangeRequestBodyOperationsItemType0,
-        )
-        from ..models.nodes_create_change_request_body_operations_item_type_1 import (
-            NodesCreateChangeRequestBodyOperationsItemType1,
-        )
-        from ..models.nodes_create_change_request_body_operations_item_type_2 import (
-            NodesCreateChangeRequestBodyOperationsItemType2,
-        )
-        from ..models.nodes_create_change_request_body_operations_item_type_3 import (
-            NodesCreateChangeRequestBodyOperationsItemType3,
-        )
+        from ..models.create_node_operation import CreateNodeOperation
+        from ..models.delete_node_operation import DeleteNodeOperation
+        from ..models.rename_node_operation import RenameNodeOperation
+        from ..models.restore_node_operation import RestoreNodeOperation
 
         operations = []
         for operations_item_data in self.operations:
             operations_item: dict[str, Any]
             if (
-                isinstance(operations_item_data, NodesCreateChangeRequestBodyOperationsItemType0)
-                or isinstance(operations_item_data, NodesCreateChangeRequestBodyOperationsItemType1)
-                or isinstance(operations_item_data, NodesCreateChangeRequestBodyOperationsItemType2)
-                or isinstance(operations_item_data, NodesCreateChangeRequestBodyOperationsItemType3)
+                isinstance(operations_item_data, CreateNodeOperation)
+                or isinstance(operations_item_data, RenameNodeOperation)
+                or isinstance(operations_item_data, DeleteNodeOperation)
+                or isinstance(operations_item_data, RestoreNodeOperation)
             ):
                 operations_item = operations_item_data.to_dict()
             else:
@@ -110,21 +87,11 @@ class NodesCreateChangeRequestBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.nodes_create_change_request_body_operations_item_type_0 import (
-            NodesCreateChangeRequestBodyOperationsItemType0,
-        )
-        from ..models.nodes_create_change_request_body_operations_item_type_1 import (
-            NodesCreateChangeRequestBodyOperationsItemType1,
-        )
-        from ..models.nodes_create_change_request_body_operations_item_type_2 import (
-            NodesCreateChangeRequestBodyOperationsItemType2,
-        )
-        from ..models.nodes_create_change_request_body_operations_item_type_3 import (
-            NodesCreateChangeRequestBodyOperationsItemType3,
-        )
-        from ..models.nodes_create_change_request_body_operations_item_type_4 import (
-            NodesCreateChangeRequestBodyOperationsItemType4,
-        )
+        from ..models.create_node_operation import CreateNodeOperation
+        from ..models.delete_node_operation import DeleteNodeOperation
+        from ..models.move_node_operation import MoveNodeOperation
+        from ..models.rename_node_operation import RenameNodeOperation
+        from ..models.restore_node_operation import RestoreNodeOperation
 
         d = dict(src_dict)
         operations = []
@@ -134,16 +101,16 @@ class NodesCreateChangeRequestBody:
             def _parse_operations_item(
                 data: object,
             ) -> (
-                NodesCreateChangeRequestBodyOperationsItemType0
-                | NodesCreateChangeRequestBodyOperationsItemType1
-                | NodesCreateChangeRequestBodyOperationsItemType2
-                | NodesCreateChangeRequestBodyOperationsItemType3
-                | NodesCreateChangeRequestBodyOperationsItemType4
+                CreateNodeOperation
+                | DeleteNodeOperation
+                | MoveNodeOperation
+                | RenameNodeOperation
+                | RestoreNodeOperation
             ):
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    operations_item_type_0 = NodesCreateChangeRequestBodyOperationsItemType0.from_dict(data)
+                    operations_item_type_0 = CreateNodeOperation.from_dict(data)
 
                     return operations_item_type_0
                 except (TypeError, ValueError, AttributeError, KeyError):
@@ -151,7 +118,7 @@ class NodesCreateChangeRequestBody:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    operations_item_type_1 = NodesCreateChangeRequestBodyOperationsItemType1.from_dict(data)
+                    operations_item_type_1 = RenameNodeOperation.from_dict(data)
 
                     return operations_item_type_1
                 except (TypeError, ValueError, AttributeError, KeyError):
@@ -159,7 +126,7 @@ class NodesCreateChangeRequestBody:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    operations_item_type_2 = NodesCreateChangeRequestBodyOperationsItemType2.from_dict(data)
+                    operations_item_type_2 = DeleteNodeOperation.from_dict(data)
 
                     return operations_item_type_2
                 except (TypeError, ValueError, AttributeError, KeyError):
@@ -167,14 +134,14 @@ class NodesCreateChangeRequestBody:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    operations_item_type_3 = NodesCreateChangeRequestBodyOperationsItemType3.from_dict(data)
+                    operations_item_type_3 = RestoreNodeOperation.from_dict(data)
 
                     return operations_item_type_3
                 except (TypeError, ValueError, AttributeError, KeyError):
                     pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                operations_item_type_4 = NodesCreateChangeRequestBodyOperationsItemType4.from_dict(data)
+                operations_item_type_4 = MoveNodeOperation.from_dict(data)
 
                 return operations_item_type_4
 

@@ -17,9 +17,8 @@ from ..models.auth_verify_response_200_effective_permission_level import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.auth_space import AuthSpace
     from ..models.auth_verify_response_200_member import AuthVerifyResponse200Member
-    from ..models.auth_verify_response_200_space import AuthVerifyResponse200Space
-    from ..models.auth_verify_response_200_spaces_item import AuthVerifyResponse200SpacesItem
     from ..models.auth_verify_response_200_user import AuthVerifyResponse200User
 
 
@@ -30,20 +29,20 @@ T = TypeVar("T", bound="AuthVerifyResponse200")
 class AuthVerifyResponse200:
     """
     Attributes:
-        space (AuthVerifyResponse200Space):
+        space (AuthSpace):
         user (AuthVerifyResponse200User):
         member (AuthVerifyResponse200Member):
-        spaces (list[AuthVerifyResponse200SpacesItem]):
+        spaces (list[AuthSpace]):
         created_space (bool | Unset):
         bootstrap_required (bool | Unset):
         credential_permission_level (AuthVerifyResponse200CredentialPermissionLevel | Unset):
         effective_permission_level (AuthVerifyResponse200EffectivePermissionLevel | Unset):
     """
 
-    space: AuthVerifyResponse200Space
+    space: AuthSpace
     user: AuthVerifyResponse200User
     member: AuthVerifyResponse200Member
-    spaces: list[AuthVerifyResponse200SpacesItem]
+    spaces: list[AuthSpace]
     created_space: bool | Unset = UNSET
     bootstrap_required: bool | Unset = UNSET
     credential_permission_level: AuthVerifyResponse200CredentialPermissionLevel | Unset = UNSET
@@ -97,13 +96,12 @@ class AuthVerifyResponse200:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.auth_space import AuthSpace
         from ..models.auth_verify_response_200_member import AuthVerifyResponse200Member
-        from ..models.auth_verify_response_200_space import AuthVerifyResponse200Space
-        from ..models.auth_verify_response_200_spaces_item import AuthVerifyResponse200SpacesItem
         from ..models.auth_verify_response_200_user import AuthVerifyResponse200User
 
         d = dict(src_dict)
-        space = AuthVerifyResponse200Space.from_dict(d.pop("space"))
+        space = AuthSpace.from_dict(d.pop("space"))
 
         user = AuthVerifyResponse200User.from_dict(d.pop("user"))
 
@@ -112,7 +110,7 @@ class AuthVerifyResponse200:
         spaces = []
         _spaces = d.pop("spaces")
         for spaces_item_data in _spaces:
-            spaces_item = AuthVerifyResponse200SpacesItem.from_dict(spaces_item_data)
+            spaces_item = AuthSpace.from_dict(spaces_item_data)
 
             spaces.append(spaces_item)
 

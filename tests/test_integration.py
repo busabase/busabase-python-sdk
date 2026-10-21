@@ -22,13 +22,23 @@ import pytest
 from busabase import Busabase, BusabaseError
 from busabase.generated.models import (
     Base,
+    ChangeRequest,
     CreatedEmbedLink,
+    CreateNodeOperation,
     DocNodeDetail,
+    EmbedFramePolicyOrigins,
+    EmbedLinksCreateBody,
+    FolderNodeDetail,
     MaterializedBase,
     MaterializedDoc,
     MaterializedRecord,
+    NodesCreateChangeRequestBody,
     PendingChangeRequest,
     Record,
+    RecordFilter,
+    RecordSort,
+    RecordValueAnyOf,
+    RecordValueComparison,
 )
 
 BASE_URL = os.environ.get("BUSABASE_TEST_BASE_URL", "")
@@ -134,8 +144,94 @@ def test_base_record_doc_search_story(bb: Busabase) -> None:
     assert isinstance(link, CreatedEmbedLink)
     assert link.frame_policy.to_dict() == {"mode": "anywhere", "allowedOrigins": []}
 
-    # 8. A missing record is an error you can branch on, not a silent None.
+    # 8. The same, but restricted to one site — built from the named request
+    #    models (0.2.0) instead of a dict. The server normalizes the origin.
+    pinned = bb.embed_links.create(
+        body=EmbedLinksCreateBody(
+            type_="node",
+            type_id=doc.node.id,
+            frame_policy=EmbedFramePolicyOrigins(mode="origins", allowed_origins=["https://example.com/"]),
+        )
+    )
+    assert isinstance(pinned, CreatedEmbedLink)
+    assert pinned.frame_policy.to_dict() == {"mode": "origins", "allowedOrigins": ["https://example.com"]}
+
+    # 9. Restructure the tree with a typed node operation: a folder for the notes.
+    folder_slug = f"py-sdk-folder-{stamp}"
+    proposed = bb.nodes.create_change_request(
+        body=NodesCreateChangeRequestBody(
+            operations=[
+                CreateNodeOperation(kind="create", node_type="folder", slug=folder_slug, name=f"Calls {stamp}")
+            ],
+            message="Add a folder for call notes",
+        )
+    )
+    assert isinstance(proposed, ChangeRequest)
+    if proposed.status == "in_review":
+        pytest.skip(f"the folder is in review as {proposed.id}; nothing merged to read back")
+    assert proposed.status == "merged", proposed.status
+    folder = bb.nodes.get(folder_slug, type_="folder")
+    assert isinstance(folder, FolderNodeDetail)
+    assert folder.node.name == f"Calls {stamp}"
+
+    # 10. A missing record is an error you can branch on, not a silent None.
     with pytest.raises(BusabaseError) as caught:
         bb.records.get(record_id=f"rec_missing_{stamp}")
     assert caught.value.status == 404
     assert caught.value.code == "NOT_FOUND"
+
+
+def test_record_query_parameters(bb: Busabase) -> None:
+    """filters / sort / valueFilters reach the server — they are object query parameters (bracket notation)."""
+    stamp = str(int(time.time()))
+    created = bb.bases.create(
+        body={
+            "slug": f"py-sdk-qp-{stamp}",
+            "name": f"Python SDK query params {stamp}",
+            "message": "Create a scratch Base for the Python SDK query-parameter test",
+            "fields": [
+                {"slug": "company", "name": "Company", "type": "text"},
+                {"slug": "n", "name": "N", "type": "number"},
+            ],
+        }
+    )
+    if isinstance(created, PendingChangeRequest):
+        pytest.skip(f"Base creation is waiting for review ({created.id}); the test needs write access")
+    assert isinstance(created, MaterializedBase)
+    # Created in this order, so neither creation order matches a sort by `n`.
+    for company, n in [("Acme", 3), ("Beta", 1), ("Acme", 2)]:
+        written = bb.bases.create_change_request(
+            base_id=created.id, body={"fields": {"company": company, "n": n}, "message": f"Add {company} {n}"}
+        )
+        if isinstance(written, PendingChangeRequest):
+            pytest.skip(f"record write is in review as {written.id}")
+
+    def ns(page: object) -> list[float]:
+        return [record_fields(record)["n"] for record in page.records]  # type: ignore[attr-defined]
+
+    by_n = RecordSort(field_slug="n", field_type="number", direction="asc")
+
+    # A view filter: only the Acme rows. View filters are pushed down to the server only
+    # with a `fieldType` (text/number/checkbox); without one the page is a documented superset.
+    acme = bb.records.list(
+        base_id=created.id,
+        filters=[RecordFilter(field_slug="company", field_type="text", operator="equals", value="Acme")],
+    )
+    assert sorted(record_fields(record)["company"] for record in acme.records) == ["Acme", "Acme"]
+
+    # Sort ascending and descending — a dropped sort comes back in creation order instead.
+    assert ns(bb.records.list(base_id=created.id, sort=by_n)) == [1, 2, 3]
+    descending = RecordSort(field_slug="n", field_type="number", direction="desc")
+    assert ns(bb.records.list(base_id=created.id, sort=descending)) == [3, 2, 1]
+
+    # Exact value filters: a comparison, and an OR group.
+    at_least_two = [RecordValueComparison(field_slug="n", operator="gte", value=2)]
+    assert ns(bb.records.list(base_id=created.id, value_filters=at_least_two, sort=by_n)) == [2, 3]
+    one_or_three = RecordValueAnyOf(
+        any_=[
+            RecordValueComparison(field_slug="n", operator="eq", value=1),
+            RecordValueComparison(field_slug="n", operator="eq", value=3),
+        ]
+    )
+    assert ns(bb.records.list(base_id=created.id, value_filters=[one_or_three], sort=by_n)) == [1, 3]
+    assert bb.records.count(base_id=created.id, value_filters=at_least_two).total == 2

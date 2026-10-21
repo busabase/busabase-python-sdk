@@ -6,12 +6,12 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error import Error
+from ...models.record_filter import RecordFilter
+from ...models.record_value_any_of import RecordValueAnyOf
+from ...models.record_value_comparison import RecordValueComparison
 from ...models.records_group_by_aggregates_item import RecordsGroupByAggregatesItem
 from ...models.records_group_by_bucketing import RecordsGroupByBucketing
-from ...models.records_group_by_filters_item import RecordsGroupByFiltersItem
 from ...models.records_group_by_response_200 import RecordsGroupByResponse200
-from ...models.records_group_by_value_filters_item_type_0 import RecordsGroupByValueFiltersItemType0
-from ...models.records_group_by_value_filters_item_type_1 import RecordsGroupByValueFiltersItemType1
 from ...types import UNSET, Response, Unset
 
 
@@ -22,8 +22,8 @@ def _get_kwargs(
     bucketing: RecordsGroupByBucketing | Unset = "grid",
     aggregates: list[RecordsGroupByAggregatesItem] | Unset = UNSET,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsGroupByFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsGroupByValueFiltersItemType0 | RecordsGroupByValueFiltersItemType1] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -63,7 +63,7 @@ def _get_kwargs(
         json_value_filters = []
         for value_filters_item_data in value_filters:
             value_filters_item: dict[str, Any]
-            if isinstance(value_filters_item_data, RecordsGroupByValueFiltersItemType0):
+            if isinstance(value_filters_item_data, RecordValueComparison):
                 value_filters_item = value_filters_item_data.to_dict()
             else:
                 value_filters_item = value_filters_item_data.to_dict()
@@ -126,8 +126,8 @@ def sync_detailed(
     bucketing: RecordsGroupByBucketing | Unset = "grid",
     aggregates: list[RecordsGroupByAggregatesItem] | Unset = UNSET,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsGroupByFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsGroupByValueFiltersItemType0 | RecordsGroupByValueFiltersItemType1] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
 ) -> Response[Error | RecordsGroupByResponse200]:
     """Count records per group
 
@@ -161,14 +161,12 @@ def sync_detailed(
             same as the group's own `count`, which counts records.
         view_id (str | Unset): Group only what this saved View would display. Its filters apply;
             its sort is ignored.
-        filters (list[RecordsGroupByFiltersItem] | Unset): Ad-hoc conditions, ANDed with the
-            View's own when both are given. The grouping is exact either way, but a condition whose
-            exactness cannot be proven makes the server read every candidate row instead of running
-            one GROUP BY.
-        value_filters (list[RecordsGroupByValueFiltersItemType0 |
-            RecordsGroupByValueFiltersItemType1] | Unset): EXACT value comparisons, same shape as
-            `records.list`'s. Always exact, so a grouping scoped only by these stays a single SQL
-            GROUP BY.
+        filters (list[RecordFilter] | Unset): Ad-hoc conditions, ANDed with the View's own when
+            both are given. The grouping is exact either way, but a condition whose exactness cannot
+            be proven makes the server read every candidate row instead of running one GROUP BY.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, same shape as `records.list`'s. Always exact, so a grouping scoped only by
+            these stays a single SQL GROUP BY.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -203,8 +201,8 @@ def sync(
     bucketing: RecordsGroupByBucketing | Unset = "grid",
     aggregates: list[RecordsGroupByAggregatesItem] | Unset = UNSET,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsGroupByFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsGroupByValueFiltersItemType0 | RecordsGroupByValueFiltersItemType1] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
 ) -> Error | RecordsGroupByResponse200 | None:
     """Count records per group
 
@@ -238,14 +236,12 @@ def sync(
             same as the group's own `count`, which counts records.
         view_id (str | Unset): Group only what this saved View would display. Its filters apply;
             its sort is ignored.
-        filters (list[RecordsGroupByFiltersItem] | Unset): Ad-hoc conditions, ANDed with the
-            View's own when both are given. The grouping is exact either way, but a condition whose
-            exactness cannot be proven makes the server read every candidate row instead of running
-            one GROUP BY.
-        value_filters (list[RecordsGroupByValueFiltersItemType0 |
-            RecordsGroupByValueFiltersItemType1] | Unset): EXACT value comparisons, same shape as
-            `records.list`'s. Always exact, so a grouping scoped only by these stays a single SQL
-            GROUP BY.
+        filters (list[RecordFilter] | Unset): Ad-hoc conditions, ANDed with the View's own when
+            both are given. The grouping is exact either way, but a condition whose exactness cannot
+            be proven makes the server read every candidate row instead of running one GROUP BY.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, same shape as `records.list`'s. Always exact, so a grouping scoped only by
+            these stays a single SQL GROUP BY.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -275,8 +271,8 @@ async def asyncio_detailed(
     bucketing: RecordsGroupByBucketing | Unset = "grid",
     aggregates: list[RecordsGroupByAggregatesItem] | Unset = UNSET,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsGroupByFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsGroupByValueFiltersItemType0 | RecordsGroupByValueFiltersItemType1] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
 ) -> Response[Error | RecordsGroupByResponse200]:
     """Count records per group
 
@@ -310,14 +306,12 @@ async def asyncio_detailed(
             same as the group's own `count`, which counts records.
         view_id (str | Unset): Group only what this saved View would display. Its filters apply;
             its sort is ignored.
-        filters (list[RecordsGroupByFiltersItem] | Unset): Ad-hoc conditions, ANDed with the
-            View's own when both are given. The grouping is exact either way, but a condition whose
-            exactness cannot be proven makes the server read every candidate row instead of running
-            one GROUP BY.
-        value_filters (list[RecordsGroupByValueFiltersItemType0 |
-            RecordsGroupByValueFiltersItemType1] | Unset): EXACT value comparisons, same shape as
-            `records.list`'s. Always exact, so a grouping scoped only by these stays a single SQL
-            GROUP BY.
+        filters (list[RecordFilter] | Unset): Ad-hoc conditions, ANDed with the View's own when
+            both are given. The grouping is exact either way, but a condition whose exactness cannot
+            be proven makes the server read every candidate row instead of running one GROUP BY.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, same shape as `records.list`'s. Always exact, so a grouping scoped only by
+            these stays a single SQL GROUP BY.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -350,8 +344,8 @@ async def asyncio(
     bucketing: RecordsGroupByBucketing | Unset = "grid",
     aggregates: list[RecordsGroupByAggregatesItem] | Unset = UNSET,
     view_id: str | Unset = UNSET,
-    filters: list[RecordsGroupByFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsGroupByValueFiltersItemType0 | RecordsGroupByValueFiltersItemType1] | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
 ) -> Error | RecordsGroupByResponse200 | None:
     """Count records per group
 
@@ -385,14 +379,12 @@ async def asyncio(
             same as the group's own `count`, which counts records.
         view_id (str | Unset): Group only what this saved View would display. Its filters apply;
             its sort is ignored.
-        filters (list[RecordsGroupByFiltersItem] | Unset): Ad-hoc conditions, ANDed with the
-            View's own when both are given. The grouping is exact either way, but a condition whose
-            exactness cannot be proven makes the server read every candidate row instead of running
-            one GROUP BY.
-        value_filters (list[RecordsGroupByValueFiltersItemType0 |
-            RecordsGroupByValueFiltersItemType1] | Unset): EXACT value comparisons, same shape as
-            `records.list`'s. Always exact, so a grouping scoped only by these stays a single SQL
-            GROUP BY.
+        filters (list[RecordFilter] | Unset): Ad-hoc conditions, ANDed with the View's own when
+            both are given. The grouping is exact either way, but a condition whose exactness cannot
+            be proven makes the server read every candidate row instead of running one GROUP BY.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, same shape as `records.list`'s. Always exact, so a grouping scoped only by
+            these stays a single SQL GROUP BY.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

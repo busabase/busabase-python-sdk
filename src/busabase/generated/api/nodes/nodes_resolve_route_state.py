@@ -6,10 +6,10 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.nodes_resolve_route_state_response_200_type_0 import NodesResolveRouteStateResponse200Type0
-from ...models.nodes_resolve_route_state_response_200_type_1 import NodesResolveRouteStateResponse200Type1
-from ...models.nodes_resolve_route_state_response_200_type_2 import NodesResolveRouteStateResponse200Type2
+from ...models.active_node_route_state import ActiveNodeRouteState
+from ...models.archived_node_route_state import ArchivedNodeRouteState
 from ...models.nodes_resolve_route_state_type import NodesResolveRouteStateType
+from ...models.unavailable_node_route_state import UnavailableNodeRouteState
 from ...types import UNSET, Response, Unset
 
 
@@ -42,25 +42,16 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> (
-    NodesResolveRouteStateResponse200Type0
-    | NodesResolveRouteStateResponse200Type1
-    | NodesResolveRouteStateResponse200Type2
-    | None
-):
+) -> ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState | None:
     if response.status_code == 200:
 
         def _parse_response_200(
             data: object,
-        ) -> (
-            NodesResolveRouteStateResponse200Type0
-            | NodesResolveRouteStateResponse200Type1
-            | NodesResolveRouteStateResponse200Type2
-        ):
+        ) -> ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                response_200_type_0 = NodesResolveRouteStateResponse200Type0.from_dict(data)
+                response_200_type_0 = ActiveNodeRouteState.from_dict(data)
 
                 return response_200_type_0
             except (TypeError, ValueError, AttributeError, KeyError):
@@ -68,14 +59,14 @@ def _parse_response(
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                response_200_type_1 = NodesResolveRouteStateResponse200Type1.from_dict(data)
+                response_200_type_1 = ArchivedNodeRouteState.from_dict(data)
 
                 return response_200_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             if not isinstance(data, dict):
                 raise TypeError()
-            response_200_type_2 = NodesResolveRouteStateResponse200Type2.from_dict(data)
+            response_200_type_2 = UnavailableNodeRouteState.from_dict(data)
 
             return response_200_type_2
 
@@ -91,11 +82,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[
-    NodesResolveRouteStateResponse200Type0
-    | NodesResolveRouteStateResponse200Type1
-    | NodesResolveRouteStateResponse200Type2
-]:
+) -> Response[ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -109,11 +96,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     type_: NodesResolveRouteStateType | Unset = UNSET,
-) -> Response[
-    NodesResolveRouteStateResponse200Type0
-    | NodesResolveRouteStateResponse200Type1
-    | NodesResolveRouteStateResponse200Type2
-]:
+) -> Response[ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState]:
     """Resolve whether a dashboard node route is active, archived, or unavailable
 
     Args:
@@ -126,7 +109,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[NodesResolveRouteStateResponse200Type0 | NodesResolveRouteStateResponse200Type1 | NodesResolveRouteStateResponse200Type2]
+        Response[ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState]
     """
 
     kwargs = _get_kwargs(
@@ -146,12 +129,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     type_: NodesResolveRouteStateType | Unset = UNSET,
-) -> (
-    NodesResolveRouteStateResponse200Type0
-    | NodesResolveRouteStateResponse200Type1
-    | NodesResolveRouteStateResponse200Type2
-    | None
-):
+) -> ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState | None:
     """Resolve whether a dashboard node route is active, archived, or unavailable
 
     Args:
@@ -164,7 +142,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        NodesResolveRouteStateResponse200Type0 | NodesResolveRouteStateResponse200Type1 | NodesResolveRouteStateResponse200Type2
+        ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState
     """
 
     return sync_detailed(
@@ -179,11 +157,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     type_: NodesResolveRouteStateType | Unset = UNSET,
-) -> Response[
-    NodesResolveRouteStateResponse200Type0
-    | NodesResolveRouteStateResponse200Type1
-    | NodesResolveRouteStateResponse200Type2
-]:
+) -> Response[ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState]:
     """Resolve whether a dashboard node route is active, archived, or unavailable
 
     Args:
@@ -196,7 +170,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[NodesResolveRouteStateResponse200Type0 | NodesResolveRouteStateResponse200Type1 | NodesResolveRouteStateResponse200Type2]
+        Response[ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState]
     """
 
     kwargs = _get_kwargs(
@@ -214,12 +188,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     type_: NodesResolveRouteStateType | Unset = UNSET,
-) -> (
-    NodesResolveRouteStateResponse200Type0
-    | NodesResolveRouteStateResponse200Type1
-    | NodesResolveRouteStateResponse200Type2
-    | None
-):
+) -> ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState | None:
     """Resolve whether a dashboard node route is active, archived, or unavailable
 
     Args:
@@ -232,7 +201,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        NodesResolveRouteStateResponse200Type0 | NodesResolveRouteStateResponse200Type1 | NodesResolveRouteStateResponse200Type2
+        ActiveNodeRouteState | ArchivedNodeRouteState | UnavailableNodeRouteState
     """
 
     return (

@@ -7,12 +7,8 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.change_requests_review_response_200_results_item_type_0 import (
-        ChangeRequestsReviewResponse200ResultsItemType0,
-    )
-    from ..models.change_requests_review_response_200_results_item_type_1 import (
-        ChangeRequestsReviewResponse200ResultsItemType1,
-    )
+    from ..models.change_request_batch_failure import ChangeRequestBatchFailure
+    from ..models.change_request_review_success import ChangeRequestReviewSuccess
 
 
 T = TypeVar("T", bound="ChangeRequestsReviewResponse200")
@@ -22,22 +18,19 @@ T = TypeVar("T", bound="ChangeRequestsReviewResponse200")
 class ChangeRequestsReviewResponse200:
     """
     Attributes:
-        results (list[ChangeRequestsReviewResponse200ResultsItemType0 |
-            ChangeRequestsReviewResponse200ResultsItemType1]):
+        results (list[ChangeRequestBatchFailure | ChangeRequestReviewSuccess]):
     """
 
-    results: list[ChangeRequestsReviewResponse200ResultsItemType0 | ChangeRequestsReviewResponse200ResultsItemType1]
+    results: list[ChangeRequestBatchFailure | ChangeRequestReviewSuccess]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.change_requests_review_response_200_results_item_type_0 import (
-            ChangeRequestsReviewResponse200ResultsItemType0,
-        )
+        from ..models.change_request_review_success import ChangeRequestReviewSuccess
 
         results = []
         for results_item_data in self.results:
             results_item: dict[str, Any]
-            if isinstance(results_item_data, ChangeRequestsReviewResponse200ResultsItemType0):
+            if isinstance(results_item_data, ChangeRequestReviewSuccess):
                 results_item = results_item_data.to_dict()
             else:
                 results_item = results_item_data.to_dict()
@@ -56,32 +49,26 @@ class ChangeRequestsReviewResponse200:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.change_requests_review_response_200_results_item_type_0 import (
-            ChangeRequestsReviewResponse200ResultsItemType0,
-        )
-        from ..models.change_requests_review_response_200_results_item_type_1 import (
-            ChangeRequestsReviewResponse200ResultsItemType1,
-        )
+        from ..models.change_request_batch_failure import ChangeRequestBatchFailure
+        from ..models.change_request_review_success import ChangeRequestReviewSuccess
 
         d = dict(src_dict)
         results = []
         _results = d.pop("results")
         for results_item_data in _results:
 
-            def _parse_results_item(
-                data: object,
-            ) -> ChangeRequestsReviewResponse200ResultsItemType0 | ChangeRequestsReviewResponse200ResultsItemType1:
+            def _parse_results_item(data: object) -> ChangeRequestBatchFailure | ChangeRequestReviewSuccess:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
-                    results_item_type_0 = ChangeRequestsReviewResponse200ResultsItemType0.from_dict(data)
+                    results_item_type_0 = ChangeRequestReviewSuccess.from_dict(data)
 
                     return results_item_type_0
                 except (TypeError, ValueError, AttributeError, KeyError):
                     pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                results_item_type_1 = ChangeRequestsReviewResponse200ResultsItemType1.from_dict(data)
+                results_item_type_1 = ChangeRequestBatchFailure.from_dict(data)
 
                 return results_item_type_1
 

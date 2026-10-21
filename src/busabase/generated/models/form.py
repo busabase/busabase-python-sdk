@@ -10,8 +10,8 @@ from ..models.form_status import FormStatus, check_form_status
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.form_bindings_item import FormBindingsItem
     from ..models.form_bound_fields_item import FormBoundFieldsItem
+    from ..models.form_field_binding import FormFieldBinding
     from ..models.form_page import FormPage
     from ..models.form_share import FormShare
 
@@ -29,7 +29,7 @@ class Form:
         target_base_id (str):
         name (str):
         description (str):
-        bindings (list[FormBindingsItem]):
+        bindings (list[FormFieldBinding]):
         page (FormPage):
         share (FormShare):
         status (FormStatus):
@@ -46,7 +46,7 @@ class Form:
     target_base_id: str
     name: str
     description: str
-    bindings: list[FormBindingsItem]
+    bindings: list[FormFieldBinding]
     page: FormPage
     share: FormShare
     status: FormStatus
@@ -124,8 +124,8 @@ class Form:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.form_bindings_item import FormBindingsItem
         from ..models.form_bound_fields_item import FormBoundFieldsItem
+        from ..models.form_field_binding import FormFieldBinding
         from ..models.form_page import FormPage
         from ..models.form_share import FormShare
 
@@ -145,7 +145,7 @@ class Form:
         bindings = []
         _bindings = d.pop("bindings")
         for bindings_item_data in _bindings:
-            bindings_item = FormBindingsItem.from_dict(bindings_item_data)
+            bindings_item = FormFieldBinding.from_dict(bindings_item_data)
 
             bindings.append(bindings_item)
 

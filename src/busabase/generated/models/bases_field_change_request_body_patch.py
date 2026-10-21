@@ -9,9 +9,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.bases_field_change_request_body_patch_help_type_0 import BasesFieldChangeRequestBodyPatchHelpType0
-    from ..models.bases_field_change_request_body_patch_name_type_1 import BasesFieldChangeRequestBodyPatchNameType1
-    from ..models.bases_field_change_request_body_patch_options import BasesFieldChangeRequestBodyPatchOptions
+    from ..models.field_help import FieldHelp
+    from ..models.field_options import FieldOptions
+    from ..models.localized_field_name import LocalizedFieldName
 
 
 T = TypeVar("T", bound="BasesFieldChangeRequestBodyPatch")
@@ -21,28 +21,28 @@ T = TypeVar("T", bound="BasesFieldChangeRequestBodyPatch")
 class BasesFieldChangeRequestBodyPatch:
     """
     Attributes:
-        name (BasesFieldChangeRequestBodyPatchNameType1 | str | Unset):
+        name (LocalizedFieldName | str | Unset):
         required (bool | Unset):
-        options (BasesFieldChangeRequestBodyPatchOptions | Unset):
-        help_ (BasesFieldChangeRequestBodyPatchHelpType0 | None | Unset):
+        options (FieldOptions | Unset):
+        help_ (FieldHelp | None | Unset):
         type_ (Any | Unset):
     """
 
-    name: BasesFieldChangeRequestBodyPatchNameType1 | str | Unset = UNSET
+    name: LocalizedFieldName | str | Unset = UNSET
     required: bool | Unset = UNSET
-    options: BasesFieldChangeRequestBodyPatchOptions | Unset = UNSET
-    help_: BasesFieldChangeRequestBodyPatchHelpType0 | None | Unset = UNSET
+    options: FieldOptions | Unset = UNSET
+    help_: FieldHelp | None | Unset = UNSET
     type_: Any | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.bases_field_change_request_body_patch_help_type_0 import BasesFieldChangeRequestBodyPatchHelpType0
-        from ..models.bases_field_change_request_body_patch_name_type_1 import BasesFieldChangeRequestBodyPatchNameType1
+        from ..models.field_help import FieldHelp
+        from ..models.localized_field_name import LocalizedFieldName
 
         name: dict[str, Any] | str | Unset
         if isinstance(self.name, Unset):
             name = UNSET
-        elif isinstance(self.name, BasesFieldChangeRequestBodyPatchNameType1):
+        elif isinstance(self.name, LocalizedFieldName):
             name = self.name.to_dict()
         else:
             name = self.name
@@ -56,7 +56,7 @@ class BasesFieldChangeRequestBodyPatch:
         help_: dict[str, Any] | None | Unset
         if isinstance(self.help_, Unset):
             help_ = UNSET
-        elif isinstance(self.help_, BasesFieldChangeRequestBodyPatchHelpType0):
+        elif isinstance(self.help_, FieldHelp):
             help_ = self.help_.to_dict()
         else:
             help_ = self.help_
@@ -81,37 +81,37 @@ class BasesFieldChangeRequestBodyPatch:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.bases_field_change_request_body_patch_help_type_0 import BasesFieldChangeRequestBodyPatchHelpType0
-        from ..models.bases_field_change_request_body_patch_name_type_1 import BasesFieldChangeRequestBodyPatchNameType1
-        from ..models.bases_field_change_request_body_patch_options import BasesFieldChangeRequestBodyPatchOptions
+        from ..models.field_help import FieldHelp
+        from ..models.field_options import FieldOptions
+        from ..models.localized_field_name import LocalizedFieldName
 
         d = dict(src_dict)
 
-        def _parse_name(data: object) -> BasesFieldChangeRequestBodyPatchNameType1 | str | Unset:
+        def _parse_name(data: object) -> LocalizedFieldName | str | Unset:
             if isinstance(data, Unset):
                 return data
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                name_type_1 = BasesFieldChangeRequestBodyPatchNameType1.from_dict(data)
+                name_type_1 = LocalizedFieldName.from_dict(data)
 
                 return name_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(BasesFieldChangeRequestBodyPatchNameType1 | str | Unset, data)
+            return cast(LocalizedFieldName | str | Unset, data)
 
         name = _parse_name(d.pop("name", UNSET))
 
         required = d.pop("required", UNSET)
 
         _options = d.pop("options", UNSET)
-        options: BasesFieldChangeRequestBodyPatchOptions | Unset
+        options: FieldOptions | Unset
         if isinstance(_options, Unset):
             options = UNSET
         else:
-            options = BasesFieldChangeRequestBodyPatchOptions.from_dict(_options)
+            options = FieldOptions.from_dict(_options)
 
-        def _parse_help_(data: object) -> BasesFieldChangeRequestBodyPatchHelpType0 | None | Unset:
+        def _parse_help_(data: object) -> FieldHelp | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -119,12 +119,12 @@ class BasesFieldChangeRequestBodyPatch:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                help_type_0 = BasesFieldChangeRequestBodyPatchHelpType0.from_dict(data)
+                help_type_0 = FieldHelp.from_dict(data)
 
                 return help_type_0
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(BasesFieldChangeRequestBodyPatchHelpType0 | None | Unset, data)
+            return cast(FieldHelp | None | Unset, data)
 
         help_ = _parse_help_(d.pop("help", UNSET))
 

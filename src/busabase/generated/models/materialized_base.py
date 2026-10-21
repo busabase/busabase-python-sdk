@@ -8,7 +8,7 @@ from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
     from ..models.base_field import BaseField
-    from ..models.materialized_base_review_policy import MaterializedBaseReviewPolicy
+    from ..models.base_review_policy import BaseReviewPolicy
 
 
 T = TypeVar("T", bound="MaterializedBase")
@@ -23,7 +23,7 @@ class MaterializedBase:
         slug (str):
         name (str):
         description (str):
-        review_policy (MaterializedBaseReviewPolicy):
+        review_policy (BaseReviewPolicy):
         created_at (str):
         fields (list[BaseField]):
         materialized (Literal[True]):
@@ -34,7 +34,7 @@ class MaterializedBase:
     slug: str
     name: str
     description: str
-    review_policy: MaterializedBaseReviewPolicy
+    review_policy: BaseReviewPolicy
     created_at: str
     fields: list[BaseField]
     materialized: Literal[True]
@@ -83,7 +83,7 @@ class MaterializedBase:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.base_field import BaseField
-        from ..models.materialized_base_review_policy import MaterializedBaseReviewPolicy
+        from ..models.base_review_policy import BaseReviewPolicy
 
         d = dict(src_dict)
         id = d.pop("id")
@@ -96,7 +96,7 @@ class MaterializedBase:
 
         description = d.pop("description")
 
-        review_policy = MaterializedBaseReviewPolicy.from_dict(d.pop("reviewPolicy"))
+        review_policy = BaseReviewPolicy.from_dict(d.pop("reviewPolicy"))
 
         created_at = d.pop("createdAt")
 

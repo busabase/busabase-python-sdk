@@ -1,0 +1,71 @@
+from typing import Literal
+
+CreateNodeOperationFieldsItemType = Literal[
+    "ai_summary",
+    "ai_tags",
+    "attachment",
+    "auto_number",
+    "checkbox",
+    "code",
+    "created_by",
+    "created_time",
+    "date",
+    "email",
+    "embed",
+    "formula",
+    "html",
+    "json",
+    "longtext",
+    "lookup",
+    "markdown",
+    "member",
+    "multiselect",
+    "number",
+    "phone",
+    "relation",
+    "select",
+    "text",
+    "updated_by",
+    "updated_time",
+    "url",
+    "whiteboard",
+    "yaml",
+]
+
+CREATE_NODE_OPERATION_FIELDS_ITEM_TYPE_VALUES: set[CreateNodeOperationFieldsItemType] = {
+    "ai_summary",
+    "ai_tags",
+    "attachment",
+    "auto_number",
+    "checkbox",
+    "code",
+    "created_by",
+    "created_time",
+    "date",
+    "email",
+    "embed",
+    "formula",
+    "html",
+    "json",
+    "longtext",
+    "lookup",
+    "markdown",
+    "member",
+    "multiselect",
+    "number",
+    "phone",
+    "relation",
+    "select",
+    "text",
+    "updated_by",
+    "updated_time",
+    "url",
+    "whiteboard",
+    "yaml",
+}
+
+
+def check_create_node_operation_fields_item_type(value: str) -> CreateNodeOperationFieldsItemType:
+    if value in CREATE_NODE_OPERATION_FIELDS_ITEM_TYPE_VALUES:
+        return value
+    raise TypeError(f"Unexpected value {value!r}. Expected one of {CREATE_NODE_OPERATION_FIELDS_ITEM_TYPE_VALUES!r}")

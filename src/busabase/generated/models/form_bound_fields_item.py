@@ -10,10 +10,10 @@ from ..models.form_bound_fields_item_type import FormBoundFieldsItemType, check_
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.field_help import FieldHelp
     from ..models.form_bound_fields_item_choices_item import FormBoundFieldsItemChoicesItem
     from ..models.form_bound_fields_item_date import FormBoundFieldsItemDate
-    from ..models.form_bound_fields_item_help import FormBoundFieldsItemHelp
-    from ..models.form_bound_fields_item_name_type_1 import FormBoundFieldsItemNameType1
+    from ..models.localized_field_name import LocalizedFieldName
 
 
 T = TypeVar("T", bound="FormBoundFieldsItem")
@@ -24,28 +24,28 @@ class FormBoundFieldsItem:
     """
     Attributes:
         slug (str):
-        name (FormBoundFieldsItemNameType1 | str):
+        name (LocalizedFieldName | str):
         type_ (FormBoundFieldsItemType):
-        help_ (FormBoundFieldsItemHelp | Unset):
+        help_ (FieldHelp | Unset):
         choices (list[FormBoundFieldsItemChoicesItem] | Unset):
         date (FormBoundFieldsItemDate | Unset):
     """
 
     slug: str
-    name: FormBoundFieldsItemNameType1 | str
+    name: LocalizedFieldName | str
     type_: FormBoundFieldsItemType
-    help_: FormBoundFieldsItemHelp | Unset = UNSET
+    help_: FieldHelp | Unset = UNSET
     choices: list[FormBoundFieldsItemChoicesItem] | Unset = UNSET
     date: FormBoundFieldsItemDate | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.form_bound_fields_item_name_type_1 import FormBoundFieldsItemNameType1
+        from ..models.localized_field_name import LocalizedFieldName
 
         slug = self.slug
 
         name: dict[str, Any] | str
-        if isinstance(self.name, FormBoundFieldsItemNameType1):
+        if isinstance(self.name, LocalizedFieldName):
             name = self.name.to_dict()
         else:
             name = self.name
@@ -87,35 +87,35 @@ class FormBoundFieldsItem:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
+        from ..models.field_help import FieldHelp
         from ..models.form_bound_fields_item_choices_item import FormBoundFieldsItemChoicesItem
         from ..models.form_bound_fields_item_date import FormBoundFieldsItemDate
-        from ..models.form_bound_fields_item_help import FormBoundFieldsItemHelp
-        from ..models.form_bound_fields_item_name_type_1 import FormBoundFieldsItemNameType1
+        from ..models.localized_field_name import LocalizedFieldName
 
         d = dict(src_dict)
         slug = d.pop("slug")
 
-        def _parse_name(data: object) -> FormBoundFieldsItemNameType1 | str:
+        def _parse_name(data: object) -> LocalizedFieldName | str:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                name_type_1 = FormBoundFieldsItemNameType1.from_dict(data)
+                name_type_1 = LocalizedFieldName.from_dict(data)
 
                 return name_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(FormBoundFieldsItemNameType1 | str, data)
+            return cast(LocalizedFieldName | str, data)
 
         name = _parse_name(d.pop("name"))
 
         type_ = check_form_bound_fields_item_type(d.pop("type"))
 
         _help_ = d.pop("help", UNSET)
-        help_: FormBoundFieldsItemHelp | Unset
+        help_: FieldHelp | Unset
         if isinstance(_help_, Unset):
             help_ = UNSET
         else:
-            help_ = FormBoundFieldsItemHelp.from_dict(_help_)
+            help_ = FieldHelp.from_dict(_help_)
 
         _choices = d.pop("choices", UNSET)
         choices: list[FormBoundFieldsItemChoicesItem] | Unset = UNSET

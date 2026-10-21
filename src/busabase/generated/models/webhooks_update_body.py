@@ -11,7 +11,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.webhook_function_config import WebhookFunctionConfig
-    from ..models.webhooks_update_body_config_type_0 import WebhooksUpdateBodyConfigType0
+    from ..models.webhook_http_config_input import WebhookHttpConfigInput
 
 
 T = TypeVar("T", bound="WebhooksUpdateBody")
@@ -24,7 +24,7 @@ class WebhooksUpdateBody:
         name (str):
         event_type (WebhooksUpdateBodyEventType):
         action_kind (Literal['notify_agent'] | Literal['run_function'] | Literal['webhook']):
-        config (WebhookFunctionConfig | WebhooksUpdateBodyConfigType0):
+        config (WebhookFunctionConfig | WebhookHttpConfigInput):
         base_id (None | str | Unset):
         enabled (bool | Unset):  Default: True.
     """
@@ -32,13 +32,13 @@ class WebhooksUpdateBody:
     name: str
     event_type: WebhooksUpdateBodyEventType
     action_kind: Literal["notify_agent", "run_function", "webhook"]
-    config: WebhookFunctionConfig | WebhooksUpdateBodyConfigType0
+    config: WebhookFunctionConfig | WebhookHttpConfigInput
     base_id: None | str | Unset = UNSET
     enabled: bool | Unset = True
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.webhooks_update_body_config_type_0 import WebhooksUpdateBodyConfigType0
+        from ..models.webhook_http_config_input import WebhookHttpConfigInput
 
         name = self.name
 
@@ -48,7 +48,7 @@ class WebhooksUpdateBody:
         action_kind = self.action_kind
 
         config: dict[str, Any]
-        if isinstance(self.config, WebhooksUpdateBodyConfigType0):
+        if isinstance(self.config, WebhookHttpConfigInput):
             config = self.config.to_dict()
         else:
             config = self.config.to_dict()
@@ -81,7 +81,7 @@ class WebhooksUpdateBody:
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
         from ..models.webhook_function_config import WebhookFunctionConfig
-        from ..models.webhooks_update_body_config_type_0 import WebhooksUpdateBodyConfigType0
+        from ..models.webhook_http_config_input import WebhookHttpConfigInput
 
         d = dict(src_dict)
         name = d.pop("name")
@@ -104,11 +104,11 @@ class WebhooksUpdateBody:
 
         action_kind = _parse_action_kind(d.pop("actionKind"))
 
-        def _parse_config(data: object) -> WebhookFunctionConfig | WebhooksUpdateBodyConfigType0:
+        def _parse_config(data: object) -> WebhookFunctionConfig | WebhookHttpConfigInput:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                config_type_0 = WebhooksUpdateBodyConfigType0.from_dict(data)
+                config_type_0 = WebhookHttpConfigInput.from_dict(data)
 
                 return config_type_0
             except (TypeError, ValueError, AttributeError, KeyError):

@@ -10,8 +10,8 @@ from ..models.base_field_type import BaseFieldType, check_base_field_type
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.base_field_name_type_1 import BaseFieldNameType1
     from ..models.field_options import FieldOptions
+    from ..models.localized_field_name import LocalizedFieldName
 
 
 T = TypeVar("T", bound="BaseField")
@@ -24,7 +24,7 @@ class BaseField:
         id (str):
         base_id (str):
         slug (str):
-        name (BaseFieldNameType1 | str):
+        name (LocalizedFieldName | str):
         type_ (BaseFieldType):
         required (bool):
         position (float):
@@ -34,7 +34,7 @@ class BaseField:
     id: str
     base_id: str
     slug: str
-    name: BaseFieldNameType1 | str
+    name: LocalizedFieldName | str
     type_: BaseFieldType
     required: bool
     position: float
@@ -42,7 +42,7 @@ class BaseField:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.base_field_name_type_1 import BaseFieldNameType1
+        from ..models.localized_field_name import LocalizedFieldName
 
         id = self.id
 
@@ -51,7 +51,7 @@ class BaseField:
         slug = self.slug
 
         name: dict[str, Any] | str
-        if isinstance(self.name, BaseFieldNameType1):
+        if isinstance(self.name, LocalizedFieldName):
             name = self.name.to_dict()
         else:
             name = self.name
@@ -86,8 +86,8 @@ class BaseField:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.base_field_name_type_1 import BaseFieldNameType1
         from ..models.field_options import FieldOptions
+        from ..models.localized_field_name import LocalizedFieldName
 
         d = dict(src_dict)
         id = d.pop("id")
@@ -96,16 +96,16 @@ class BaseField:
 
         slug = d.pop("slug")
 
-        def _parse_name(data: object) -> BaseFieldNameType1 | str:
+        def _parse_name(data: object) -> LocalizedFieldName | str:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                name_type_1 = BaseFieldNameType1.from_dict(data)
+                name_type_1 = LocalizedFieldName.from_dict(data)
 
                 return name_type_1
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(BaseFieldNameType1 | str, data)
+            return cast(LocalizedFieldName | str, data)
 
         name = _parse_name(d.pop("name"))
 

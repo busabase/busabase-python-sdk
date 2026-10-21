@@ -5,12 +5,12 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.records_list_filters_item import RecordsListFiltersItem
+from ...models.record_filter import RecordFilter
+from ...models.record_sort import RecordSort
+from ...models.record_value_any_of import RecordValueAnyOf
+from ...models.record_value_comparison import RecordValueComparison
 from ...models.records_list_response_200 import RecordsListResponse200
-from ...models.records_list_sort import RecordsListSort
 from ...models.records_list_status import RecordsListStatus
-from ...models.records_list_value_filters_item_type_0 import RecordsListValueFiltersItemType0
-from ...models.records_list_value_filters_item_type_1 import RecordsListValueFiltersItemType1
 from ...types import UNSET, Response, Unset
 
 
@@ -21,9 +21,9 @@ def _get_kwargs(
     cursor: str | Unset = UNSET,
     status: RecordsListStatus | Unset = "active",
     summary: Literal["false", "true"] | bool | Unset = UNSET,
-    filters: list[RecordsListFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsListValueFiltersItemType0 | RecordsListValueFiltersItemType1] | Unset = UNSET,
-    sort: RecordsListSort | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
+    sort: RecordSort | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -61,7 +61,7 @@ def _get_kwargs(
         json_value_filters = []
         for value_filters_item_data in value_filters:
             value_filters_item: dict[str, Any]
-            if isinstance(value_filters_item_data, RecordsListValueFiltersItemType0):
+            if isinstance(value_filters_item_data, RecordValueComparison):
                 value_filters_item = value_filters_item_data.to_dict()
             else:
                 value_filters_item = value_filters_item_data.to_dict()
@@ -118,9 +118,9 @@ def sync_detailed(
     cursor: str | Unset = UNSET,
     status: RecordsListStatus | Unset = "active",
     summary: Literal["false", "true"] | bool | Unset = UNSET,
-    filters: list[RecordsListFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsListValueFiltersItemType0 | RecordsListValueFiltersItemType1] | Unset = UNSET,
-    sort: RecordsListSort | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
+    sort: RecordSort | Unset = UNSET,
 ) -> Response[RecordsListResponse200]:
     """List records
 
@@ -140,21 +140,19 @@ def sync_detailed(
             field values larger than 4 KB are replaced with omission markers, and Base field
             definitions and computed lookup values are omitted. Omit for full records; use records.get
             to read the complete content of a selected row.
-        filters (list[RecordsListFiltersItem] | Unset): View filters — a best-effort SUPERSET, not
-            an exact answer. They mean what the grid means (a currency number reads as "$1,234.00", a
-            select as its choice label), and the server may return records that do not match, so the
-            caller must narrow them again and must NOT trust `limit` alongside them. Use
-            `valueFilters` when you need an exact row set.
-        value_filters (list[RecordsListValueFiltersItemType0 | RecordsListValueFiltersItemType1] |
-            Unset): EXACT value comparisons, unlike `filters` which are a best-effort superset. The
-            returned rows are exactly those that match, so `limit` can be trusted alongside them.
-            Entries are ANDed; an entry may instead be `{ any: [...] }` to OR its comparisons, which
-            makes the list a CNF and can express any boolean combination. Requires `baseId`. Compares
-            number, date, checkbox and text-like fields (text and select support eq/ne only); anything
-            else is a 400 rather than a silently dropped condition.
-        sort (RecordsListSort | Unset): Sort by one field. Only number and date fields sort
-            authoritatively (their typed value column matches a client's own ordering); any other
-            field type is returned in the default order and left for the caller to sort.
+        filters (list[RecordFilter] | Unset): View filters — a best-effort SUPERSET, not an exact
+            answer. They mean what the grid means (a currency number reads as "$1,234.00", a select as
+            its choice label), and the server may return records that do not match, so the caller must
+            narrow them again and must NOT trust `limit` alongside them. Use `valueFilters` when you
+            need an exact row set.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, unlike `filters` which are a best-effort superset. The returned rows are
+            exactly those that match, so `limit` can be trusted alongside them. Entries are ANDed; an
+            entry may instead be `{ any: [...] }` to OR its comparisons, which makes the list a CNF
+            and can express any boolean combination. Requires `baseId`. Compares number, date,
+            checkbox and text-like fields (text and select support eq/ne only); anything else is a 400
+            rather than a silently dropped condition.
+        sort (RecordSort | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -190,9 +188,9 @@ def sync(
     cursor: str | Unset = UNSET,
     status: RecordsListStatus | Unset = "active",
     summary: Literal["false", "true"] | bool | Unset = UNSET,
-    filters: list[RecordsListFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsListValueFiltersItemType0 | RecordsListValueFiltersItemType1] | Unset = UNSET,
-    sort: RecordsListSort | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
+    sort: RecordSort | Unset = UNSET,
 ) -> RecordsListResponse200 | None:
     """List records
 
@@ -212,21 +210,19 @@ def sync(
             field values larger than 4 KB are replaced with omission markers, and Base field
             definitions and computed lookup values are omitted. Omit for full records; use records.get
             to read the complete content of a selected row.
-        filters (list[RecordsListFiltersItem] | Unset): View filters — a best-effort SUPERSET, not
-            an exact answer. They mean what the grid means (a currency number reads as "$1,234.00", a
-            select as its choice label), and the server may return records that do not match, so the
-            caller must narrow them again and must NOT trust `limit` alongside them. Use
-            `valueFilters` when you need an exact row set.
-        value_filters (list[RecordsListValueFiltersItemType0 | RecordsListValueFiltersItemType1] |
-            Unset): EXACT value comparisons, unlike `filters` which are a best-effort superset. The
-            returned rows are exactly those that match, so `limit` can be trusted alongside them.
-            Entries are ANDed; an entry may instead be `{ any: [...] }` to OR its comparisons, which
-            makes the list a CNF and can express any boolean combination. Requires `baseId`. Compares
-            number, date, checkbox and text-like fields (text and select support eq/ne only); anything
-            else is a 400 rather than a silently dropped condition.
-        sort (RecordsListSort | Unset): Sort by one field. Only number and date fields sort
-            authoritatively (their typed value column matches a client's own ordering); any other
-            field type is returned in the default order and left for the caller to sort.
+        filters (list[RecordFilter] | Unset): View filters — a best-effort SUPERSET, not an exact
+            answer. They mean what the grid means (a currency number reads as "$1,234.00", a select as
+            its choice label), and the server may return records that do not match, so the caller must
+            narrow them again and must NOT trust `limit` alongside them. Use `valueFilters` when you
+            need an exact row set.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, unlike `filters` which are a best-effort superset. The returned rows are
+            exactly those that match, so `limit` can be trusted alongside them. Entries are ANDed; an
+            entry may instead be `{ any: [...] }` to OR its comparisons, which makes the list a CNF
+            and can express any boolean combination. Requires `baseId`. Compares number, date,
+            checkbox and text-like fields (text and select support eq/ne only); anything else is a 400
+            rather than a silently dropped condition.
+        sort (RecordSort | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -257,9 +253,9 @@ async def asyncio_detailed(
     cursor: str | Unset = UNSET,
     status: RecordsListStatus | Unset = "active",
     summary: Literal["false", "true"] | bool | Unset = UNSET,
-    filters: list[RecordsListFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsListValueFiltersItemType0 | RecordsListValueFiltersItemType1] | Unset = UNSET,
-    sort: RecordsListSort | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
+    sort: RecordSort | Unset = UNSET,
 ) -> Response[RecordsListResponse200]:
     """List records
 
@@ -279,21 +275,19 @@ async def asyncio_detailed(
             field values larger than 4 KB are replaced with omission markers, and Base field
             definitions and computed lookup values are omitted. Omit for full records; use records.get
             to read the complete content of a selected row.
-        filters (list[RecordsListFiltersItem] | Unset): View filters — a best-effort SUPERSET, not
-            an exact answer. They mean what the grid means (a currency number reads as "$1,234.00", a
-            select as its choice label), and the server may return records that do not match, so the
-            caller must narrow them again and must NOT trust `limit` alongside them. Use
-            `valueFilters` when you need an exact row set.
-        value_filters (list[RecordsListValueFiltersItemType0 | RecordsListValueFiltersItemType1] |
-            Unset): EXACT value comparisons, unlike `filters` which are a best-effort superset. The
-            returned rows are exactly those that match, so `limit` can be trusted alongside them.
-            Entries are ANDed; an entry may instead be `{ any: [...] }` to OR its comparisons, which
-            makes the list a CNF and can express any boolean combination. Requires `baseId`. Compares
-            number, date, checkbox and text-like fields (text and select support eq/ne only); anything
-            else is a 400 rather than a silently dropped condition.
-        sort (RecordsListSort | Unset): Sort by one field. Only number and date fields sort
-            authoritatively (their typed value column matches a client's own ordering); any other
-            field type is returned in the default order and left for the caller to sort.
+        filters (list[RecordFilter] | Unset): View filters — a best-effort SUPERSET, not an exact
+            answer. They mean what the grid means (a currency number reads as "$1,234.00", a select as
+            its choice label), and the server may return records that do not match, so the caller must
+            narrow them again and must NOT trust `limit` alongside them. Use `valueFilters` when you
+            need an exact row set.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, unlike `filters` which are a best-effort superset. The returned rows are
+            exactly those that match, so `limit` can be trusted alongside them. Entries are ANDed; an
+            entry may instead be `{ any: [...] }` to OR its comparisons, which makes the list a CNF
+            and can express any boolean combination. Requires `baseId`. Compares number, date,
+            checkbox and text-like fields (text and select support eq/ne only); anything else is a 400
+            rather than a silently dropped condition.
+        sort (RecordSort | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -327,9 +321,9 @@ async def asyncio(
     cursor: str | Unset = UNSET,
     status: RecordsListStatus | Unset = "active",
     summary: Literal["false", "true"] | bool | Unset = UNSET,
-    filters: list[RecordsListFiltersItem] | Unset = UNSET,
-    value_filters: list[RecordsListValueFiltersItemType0 | RecordsListValueFiltersItemType1] | Unset = UNSET,
-    sort: RecordsListSort | Unset = UNSET,
+    filters: list[RecordFilter] | Unset = UNSET,
+    value_filters: list[RecordValueAnyOf | RecordValueComparison] | Unset = UNSET,
+    sort: RecordSort | Unset = UNSET,
 ) -> RecordsListResponse200 | None:
     """List records
 
@@ -349,21 +343,19 @@ async def asyncio(
             field values larger than 4 KB are replaced with omission markers, and Base field
             definitions and computed lookup values are omitted. Omit for full records; use records.get
             to read the complete content of a selected row.
-        filters (list[RecordsListFiltersItem] | Unset): View filters — a best-effort SUPERSET, not
-            an exact answer. They mean what the grid means (a currency number reads as "$1,234.00", a
-            select as its choice label), and the server may return records that do not match, so the
-            caller must narrow them again and must NOT trust `limit` alongside them. Use
-            `valueFilters` when you need an exact row set.
-        value_filters (list[RecordsListValueFiltersItemType0 | RecordsListValueFiltersItemType1] |
-            Unset): EXACT value comparisons, unlike `filters` which are a best-effort superset. The
-            returned rows are exactly those that match, so `limit` can be trusted alongside them.
-            Entries are ANDed; an entry may instead be `{ any: [...] }` to OR its comparisons, which
-            makes the list a CNF and can express any boolean combination. Requires `baseId`. Compares
-            number, date, checkbox and text-like fields (text and select support eq/ne only); anything
-            else is a 400 rather than a silently dropped condition.
-        sort (RecordsListSort | Unset): Sort by one field. Only number and date fields sort
-            authoritatively (their typed value column matches a client's own ordering); any other
-            field type is returned in the default order and left for the caller to sort.
+        filters (list[RecordFilter] | Unset): View filters — a best-effort SUPERSET, not an exact
+            answer. They mean what the grid means (a currency number reads as "$1,234.00", a select as
+            its choice label), and the server may return records that do not match, so the caller must
+            narrow them again and must NOT trust `limit` alongside them. Use `valueFilters` when you
+            need an exact row set.
+        value_filters (list[RecordValueAnyOf | RecordValueComparison] | Unset): EXACT value
+            comparisons, unlike `filters` which are a best-effort superset. The returned rows are
+            exactly those that match, so `limit` can be trusted alongside them. Entries are ANDed; an
+            entry may instead be `{ any: [...] }` to OR its comparisons, which makes the list a CNF
+            and can express any boolean combination. Requires `baseId`. Compares number, date,
+            checkbox and text-like fields (text and select support eq/ne only); anything else is a 400
+            rather than a silently dropped condition.
+        sort (RecordSort | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

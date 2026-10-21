@@ -25,6 +25,9 @@ class BasesCreateBody:
             (Base, Doc, AirApp, etc.) cannot hold children.
         description (str | Unset):  Default: ''.
         fields (list[BasesCreateBodyFieldsItem] | Unset):
+        default_view (bool | Unset): Whether the new Base gets its default "Grid view" (a table view showing every
+            record and field). Defaults to true. Pass false only when you add your own views right away — a Base must always
+            keep at least one view, and the leftmost one is what it opens on.
         auto_merge (bool | Unset):
     """
 
@@ -33,6 +36,7 @@ class BasesCreateBody:
     parent_node_id: str | Unset = UNSET
     description: str | Unset = ""
     fields: list[BasesCreateBodyFieldsItem] | Unset = UNSET
+    default_view: bool | Unset = UNSET
     auto_merge: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -52,6 +56,8 @@ class BasesCreateBody:
                 fields_item = fields_item_data.to_dict()
                 fields.append(fields_item)
 
+        default_view = self.default_view
+
         auto_merge = self.auto_merge
 
         field_dict: dict[str, Any] = {}
@@ -68,6 +74,8 @@ class BasesCreateBody:
             field_dict["description"] = description
         if fields is not UNSET:
             field_dict["fields"] = fields
+        if default_view is not UNSET:
+            field_dict["defaultView"] = default_view
         if auto_merge is not UNSET:
             field_dict["autoMerge"] = auto_merge
 
@@ -95,6 +103,8 @@ class BasesCreateBody:
 
                 fields.append(fields_item)
 
+        default_view = d.pop("defaultView", UNSET)
+
         auto_merge = d.pop("autoMerge", UNSET)
 
         bases_create_body = cls(
@@ -103,6 +113,7 @@ class BasesCreateBody:
             parent_node_id=parent_node_id,
             description=description,
             fields=fields,
+            default_view=default_view,
             auto_merge=auto_merge,
         )
 

@@ -7,9 +7,7 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.nodes_update_agent_prompts_body_agent_prompts_type_0_item import (
-        NodesUpdateAgentPromptsBodyAgentPromptsType0Item,
-    )
+    from ..models.node_agent_prompt import NodeAgentPrompt
 
 
 T = TypeVar("T", bound="NodesUpdateAgentPromptsBody")
@@ -19,10 +17,10 @@ T = TypeVar("T", bound="NodesUpdateAgentPromptsBody")
 class NodesUpdateAgentPromptsBody:
     """
     Attributes:
-        agent_prompts (list[NodesUpdateAgentPromptsBodyAgentPromptsType0Item] | None):
+        agent_prompts (list[NodeAgentPrompt] | None):
     """
 
-    agent_prompts: list[NodesUpdateAgentPromptsBodyAgentPromptsType0Item] | None
+    agent_prompts: list[NodeAgentPrompt] | None
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -48,13 +46,11 @@ class NodesUpdateAgentPromptsBody:
 
     @classmethod
     def from_dict(cls, src_dict: Mapping[str, Any]) -> Self:
-        from ..models.nodes_update_agent_prompts_body_agent_prompts_type_0_item import (
-            NodesUpdateAgentPromptsBodyAgentPromptsType0Item,
-        )
+        from ..models.node_agent_prompt import NodeAgentPrompt
 
         d = dict(src_dict)
 
-        def _parse_agent_prompts(data: object) -> list[NodesUpdateAgentPromptsBodyAgentPromptsType0Item] | None:
+        def _parse_agent_prompts(data: object) -> list[NodeAgentPrompt] | None:
             if data is None:
                 return data
             try:
@@ -63,16 +59,14 @@ class NodesUpdateAgentPromptsBody:
                 agent_prompts_type_0 = []
                 _agent_prompts_type_0 = data
                 for agent_prompts_type_0_item_data in _agent_prompts_type_0:
-                    agent_prompts_type_0_item = NodesUpdateAgentPromptsBodyAgentPromptsType0Item.from_dict(
-                        agent_prompts_type_0_item_data
-                    )
+                    agent_prompts_type_0_item = NodeAgentPrompt.from_dict(agent_prompts_type_0_item_data)
 
                     agent_prompts_type_0.append(agent_prompts_type_0_item)
 
                 return agent_prompts_type_0
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(list[NodesUpdateAgentPromptsBodyAgentPromptsType0Item] | None, data)
+            return cast(list[NodeAgentPrompt] | None, data)
 
         agent_prompts = _parse_agent_prompts(d.pop("agentPrompts"))
 
