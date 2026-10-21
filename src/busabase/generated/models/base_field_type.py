@@ -1,0 +1,71 @@
+from typing import Literal
+
+BaseFieldType = Literal[
+    "ai_summary",
+    "ai_tags",
+    "attachment",
+    "auto_number",
+    "checkbox",
+    "code",
+    "created_by",
+    "created_time",
+    "date",
+    "email",
+    "embed",
+    "formula",
+    "html",
+    "json",
+    "longtext",
+    "lookup",
+    "markdown",
+    "member",
+    "multiselect",
+    "number",
+    "phone",
+    "relation",
+    "select",
+    "text",
+    "updated_by",
+    "updated_time",
+    "url",
+    "whiteboard",
+    "yaml",
+]
+
+BASE_FIELD_TYPE_VALUES: set[BaseFieldType] = {
+    "ai_summary",
+    "ai_tags",
+    "attachment",
+    "auto_number",
+    "checkbox",
+    "code",
+    "created_by",
+    "created_time",
+    "date",
+    "email",
+    "embed",
+    "formula",
+    "html",
+    "json",
+    "longtext",
+    "lookup",
+    "markdown",
+    "member",
+    "multiselect",
+    "number",
+    "phone",
+    "relation",
+    "select",
+    "text",
+    "updated_by",
+    "updated_time",
+    "url",
+    "whiteboard",
+    "yaml",
+}
+
+
+def check_base_field_type(value: str) -> BaseFieldType:
+    if value in BASE_FIELD_TYPE_VALUES:
+        return value
+    raise TypeError(f"Unexpected value {value!r}. Expected one of {BASE_FIELD_TYPE_VALUES!r}")

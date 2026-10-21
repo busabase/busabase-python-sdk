@@ -1,0 +1,12 @@
+# Config for openapi-python-client — see scripts/generate.py, which is the only
+# supported way to run it (it pins the output location and checks for drift).
+
+# Python `Literal["text", "number", ...]` instead of one Enum class per enum:
+# callers pass plain strings, and ~190 Enum modules disappear.
+literal_enums: true
+
+# The defaults minus config-file discovery (`--isolated`), so the output is the
+# same whatever ruff config happens to sit in a parent directory.
+post_hooks:
+  - "ruff check . --isolated --no-cache --fix-only --extend-select=I --line-length 120"
+  - "ruff format . --isolated --no-cache --line-length 120"

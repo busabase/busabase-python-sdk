@@ -1,0 +1,71 @@
+from typing import Literal
+
+BasesCreateFieldBodyType = Literal[
+    "ai_summary",
+    "ai_tags",
+    "attachment",
+    "auto_number",
+    "checkbox",
+    "code",
+    "created_by",
+    "created_time",
+    "date",
+    "email",
+    "embed",
+    "formula",
+    "html",
+    "json",
+    "longtext",
+    "lookup",
+    "markdown",
+    "member",
+    "multiselect",
+    "number",
+    "phone",
+    "relation",
+    "select",
+    "text",
+    "updated_by",
+    "updated_time",
+    "url",
+    "whiteboard",
+    "yaml",
+]
+
+BASES_CREATE_FIELD_BODY_TYPE_VALUES: set[BasesCreateFieldBodyType] = {
+    "ai_summary",
+    "ai_tags",
+    "attachment",
+    "auto_number",
+    "checkbox",
+    "code",
+    "created_by",
+    "created_time",
+    "date",
+    "email",
+    "embed",
+    "formula",
+    "html",
+    "json",
+    "longtext",
+    "lookup",
+    "markdown",
+    "member",
+    "multiselect",
+    "number",
+    "phone",
+    "relation",
+    "select",
+    "text",
+    "updated_by",
+    "updated_time",
+    "url",
+    "whiteboard",
+    "yaml",
+}
+
+
+def check_bases_create_field_body_type(value: str) -> BasesCreateFieldBodyType:
+    if value in BASES_CREATE_FIELD_BODY_TYPE_VALUES:
+        return value
+    raise TypeError(f"Unexpected value {value!r}. Expected one of {BASES_CREATE_FIELD_BODY_TYPE_VALUES!r}")

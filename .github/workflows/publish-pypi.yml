@@ -1,0 +1,58 @@
+name: Test and publish to PyPI
+
+# Tests on every push and pull request. On main, publishes when the version in
+# src/busabase/_version.py is not on PyPI yet. Idempotent by version: re-running
+# a workflow (or pushing an unrelated commit) never republishes.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+
+      # A uv-managed Python, not the runner's system one, whose site-packages
+      # can shadow packages (an old-style `zope` broke the Dify plugin's CI).
+      - run: uv sync --frozen --python ${{ matrix.python }} --managed-python
+      # Includes tests/test_generated.py: the committed generated code must be
+      # exactly what openapi.json produces.
+      - run: uv run --frozen pytest -q
+
+  publish:
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      # PyPI trusted publishing (OIDC) — no API token stored in the repo.
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Is this version new?
+        id: version
+        run: |
+          VERSION=$(sed -n 's/^__version__ = "\(.*\)"$/\1/p' src/busabase/_version.py)
+          test -n "$VERSION"
+          if curl -fsS -o /dev/null "https://pypi.org/pypi/busabase/$VERSION/json"; then
+            echo "busabase $VERSION is already on PyPI — nothing to do."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.version.outputs.publish == 'true'
+        run: uv build
+
+      - if: steps.version.outputs.publish == 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1

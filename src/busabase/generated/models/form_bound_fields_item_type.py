@@ -1,0 +1,71 @@
+from typing import Literal
+
+FormBoundFieldsItemType = Literal[
+    "ai_summary",
+    "ai_tags",
+    "attachment",
+    "auto_number",
+    "checkbox",
+    "code",
+    "created_by",
+    "created_time",
+    "date",
+    "email",
+    "embed",
+    "formula",
+    "html",
+    "json",
+    "longtext",
+    "lookup",
+    "markdown",
+    "member",
+    "multiselect",
+    "number",
+    "phone",
+    "relation",
+    "select",
+    "text",
+    "updated_by",
+    "updated_time",
+    "url",
+    "whiteboard",
+    "yaml",
+]
+
+FORM_BOUND_FIELDS_ITEM_TYPE_VALUES: set[FormBoundFieldsItemType] = {
+    "ai_summary",
+    "ai_tags",
+    "attachment",
+    "auto_number",
+    "checkbox",
+    "code",
+    "created_by",
+    "created_time",
+    "date",
+    "email",
+    "embed",
+    "formula",
+    "html",
+    "json",
+    "longtext",
+    "lookup",
+    "markdown",
+    "member",
+    "multiselect",
+    "number",
+    "phone",
+    "relation",
+    "select",
+    "text",
+    "updated_by",
+    "updated_time",
+    "url",
+    "whiteboard",
+    "yaml",
+}
+
+
+def check_form_bound_fields_item_type(value: str) -> FormBoundFieldsItemType:
+    if value in FORM_BOUND_FIELDS_ITEM_TYPE_VALUES:
+        return value
+    raise TypeError(f"Unexpected value {value!r}. Expected one of {FORM_BOUND_FIELDS_ITEM_TYPE_VALUES!r}")

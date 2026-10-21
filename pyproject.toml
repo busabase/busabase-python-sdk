@@ -1,0 +1,64 @@
+[project]
+name = "busabase"
+dynamic = ["version"]
+description = "Official Python SDK for the Busabase REST API — Bases, records, docs, files, skills and Change Requests, on Busabase Cloud or a self-hosted server."
+readme = "README.md"
+license = "MIT"
+# The generated code uses `typing.Self` (3.11+). Python 3.10 reaches end of
+# life in October 2026.
+requires-python = ">=3.11"
+authors = [{ name = "Busabase" }]
+keywords = ["busabase", "sdk", "api", "openapi", "database", "ai-agents"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
+]
+# Exactly what openapi-python-client's generated code needs.
+dependencies = [
+    "httpx>=0.23.1,<0.29.0",
+    "attrs>=22.2.0",
+]
+
+[project.urls]
+Homepage = "https://busabase.com"
+Repository = "https://github.com/busabase/busabase-python-sdk"
+Issues = "https://github.com/busabase/busabase-python-sdk/issues"
+Documentation = "https://busabase.com/api/v1/openapi.json"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3,<10",
+    # Pinned exactly: scripts/generate.py --check compares byte-for-byte, so the
+    # generator and the formatter it runs must not float.
+    "openapi-python-client==0.29.1",
+    "ruff==0.17.1",
+]
+
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/busabase/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/busabase"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/busabase", "README.md", "LICENSE", "openapi.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: talks to a real Busabase server (set BUSABASE_TEST_BASE_URL)",
+]
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["src/busabase/generated"]

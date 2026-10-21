@@ -1,0 +1,71 @@
+from typing import Literal
+
+BasesFieldChangeRequestBodyNewType = Literal[
+    "ai_summary",
+    "ai_tags",
+    "attachment",
+    "auto_number",
+    "checkbox",
+    "code",
+    "created_by",
+    "created_time",
+    "date",
+    "email",
+    "embed",
+    "formula",
+    "html",
+    "json",
+    "longtext",
+    "lookup",
+    "markdown",
+    "member",
+    "multiselect",
+    "number",
+    "phone",
+    "relation",
+    "select",
+    "text",
+    "updated_by",
+    "updated_time",
+    "url",
+    "whiteboard",
+    "yaml",
+]
+
+BASES_FIELD_CHANGE_REQUEST_BODY_NEW_TYPE_VALUES: set[BasesFieldChangeRequestBodyNewType] = {
+    "ai_summary",
+    "ai_tags",
+    "attachment",
+    "auto_number",
+    "checkbox",
+    "code",
+    "created_by",
+    "created_time",
+    "date",
+    "email",
+    "embed",
+    "formula",
+    "html",
+    "json",
+    "longtext",
+    "lookup",
+    "markdown",
+    "member",
+    "multiselect",
+    "number",
+    "phone",
+    "relation",
+    "select",
+    "text",
+    "updated_by",
+    "updated_time",
+    "url",
+    "whiteboard",
+    "yaml",
+}
+
+
+def check_bases_field_change_request_body_new_type(value: str) -> BasesFieldChangeRequestBodyNewType:
+    if value in BASES_FIELD_CHANGE_REQUEST_BODY_NEW_TYPE_VALUES:
+        return value
+    raise TypeError(f"Unexpected value {value!r}. Expected one of {BASES_FIELD_CHANGE_REQUEST_BODY_NEW_TYPE_VALUES!r}")
